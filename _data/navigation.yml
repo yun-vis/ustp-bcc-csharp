@@ -1,0 +1,32 @@
+# main links
+main:
+  - title: "Setup"
+    url: /pages/setup
+  - title: "C# Basics"
+    url: /pages/basics
+  - title: "Class"
+    url: /pages/class
+  - title: "Inheritance"
+    url: /pages/inheritance
+  - title: "Polymorphism"
+    url: /pages/polymorphism
+  - title: "Data Structure & Algorithm"
+    url: /pages/algorithm
+  - title: "Collections"
+    url: /pages/collection
+  - title: ".Net Type"
+    url: /pages/dotnettype
+  - title: ".Net File Management"
+    url: /pages/nuget
+  - title: ".Net MAUI"
+    url: /pages/dotnetmaui
+  - title: "File IO"
+    url: /pages/fileio
+  - title: "Performance"
+    url: /pages/performance
+  - title: "Snake"
+    url: /pages/snake
+  - title: "Assignment"
+    url: /pages/assignment
+  - title: "Contributors"
+    url: /pages/contribute
