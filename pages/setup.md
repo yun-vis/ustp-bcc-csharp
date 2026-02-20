@@ -13,26 +13,21 @@ last_modified_at: 2025-02-20
 
 # C# Environment Setup
 
-Windows:
-  * Visual Studio Code: .Net 8 (tested on Windows 10)
-
-MacOS:
-  * Visual Studio Code: .Net 8 (tested on Sequoia 15.3)
-
-Linux:
-  * Visual Studio Code: .Net 8 (tested on Unbuntu 24.04)
-
-## Install Visual Studio Code and .NET 8 SDKs
+Windows/MacOS/Linux: Visual Studio Code + .Net 10 
+  
+## Install Visual Studio Code and .NET 10 SDKs
 
   * [Visual Studio Code](https://code.visualstudio.com/)
-  * [.Net 8 SDKs (Long Term Support)](https://dotnet.microsoft.com/en-us/download/dotnet)
+  * [.Net 10 SDKs (Long Term Support)](https://dotnet.microsoft.com/en-us/download/dotnet)
+  * [All .NET 10.0 downloads](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+  * What is SDK? A Software Development Kit (SDK) is a set of tools, libraries, documentation, and code samples that developers use to create applications for a specific platform, operating system, or programming language. 
 
 ### Install Visual Studio Code Extension
 
   <!-- * [.NET MAUI (Optional)](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui): official Microsoft extension for MAUI developers. -->
   <!-- * The following two extensions should come automatically. -->
   * [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
-      * Using C# Dev Kit requires you to sign in with a Microsoft account that has an active Visual Studio subscription. Visual Studio Community, for example.
+      * Using C# Dev Kit requires you to sign in with a Microsoft account that has an active Visual Studio subscription. Visual Studio Community, for example. You can sign in with your own account or ustp account.
   * [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
   * [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one): Extension for Markdown documents.
   * [CSharp to PlantUML](https://marketplace.visualstudio.com/items?itemName=pierre3.csharp-to-plantuml): Extension for converting Calss relationship in C# to PUML format. 
@@ -65,7 +60,7 @@ Linux:
   * Usage: Alt+D (Windows)/Option+D (Mac OS) to enable the preview function
 
 ## Markdown All in One via Extension
-  * Usage: Ctrl K+V to preview the file
+  * Usage: Ctrl + Shift + V or Ctrl K+V to preview the file
 
 ## Check Your Installed .Net SDK
 
@@ -74,7 +69,7 @@ Linux:
 $ dotnet -h|--help
 // check the installed .Net in your system
 $ dotnet --info 
-// check the .Net Version used for command line
+// check the current .Net Version used for command line
 $ dotnet --version
 // check all installed SDKs
 $ dotnet --list-sdks
@@ -84,35 +79,31 @@ $ dotnet --list-sdks
 // Uses the highest installed feature band and patch level that matches 
 // the requested major and minor with a feature band and patch level that is 
 // greater than or equal to the specified value. If not found, fails.
+// --roll-forward latestFeature: Configures the SDK to use the highest installed feature band and patch level for the specified major/minor version.
 $ dotnet new globaljson --sdk-version 8.0.302 --roll-forward latestFeature
+# $ dotnet new globaljson --force --sdk-version 8.0.302 --roll-forward latestFeature
+// 8.0.302 follows a specific Major.Minor.Patch structure
+// 8 (Major): Represents the major .NET release (e.g., .NET 8).
+// 0 (Minor): Aligns with the minor version of the .NET runtime.
+// 100 (SDK Patch): This 3-digit number is split into: 1 (Feature Band) + 00 (Patch Level)
 // Check for update
 $ dotnet sdk check
 ```
 
 More about globaljson can be found [here](https://learn.microsoft.com/en-us/dotnet/core/tools/global-json).
 
-## Check Your Installed .Net SDK
-
-In Program.csproj
-```bash
-// You build your project against APIs defined in a target framework moniker (TFM). You specify the target framework in the project file.
-  <TargetFramework>net9.0</TargetFramework>
-// or multiple target frameworks. Note that the element name is now plural.
-  <TargetFrameworks>net8.0;net47</TargetFrameworks>
-```
-
 
 ## First Console Program
 
 ```bash
+// Create a new console project with a specific project name
+$ dotnet new console --name MyProject
 // Use top-level statements
 $ dotnet new console 
 // Skip top-level statements and include Main()
 $ dotnet new console --use-program-main 
-// Create a new console project with a specific project name
-$ dotnet new console --name MyProject
 ```
-or call .NET New Project in the [VSCode Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#:~:text=The%20most%20important%20key%20combination,for%20the%20most%20common%20operations.)
+or call .NET New Project (Ctrl+Shift+P) in the [VSCode Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#:~:text=The%20most%20important%20key%20combination,for%20the%20most%20common%20operations.)
 
 In Program.cs [Doc](https://aka.ms/new-console-template)
 ### Use top-level statements
@@ -146,6 +137,14 @@ In CRC_CSD-00.csproj [Doc](https://docs.microsoft.com/en-us/aspnet/web-forms/ove
   </PropertyGroup>
 
 </Project>
+```
+
+In CRC_CSD-00.csproj
+```bash
+// You build your project against APIs defined in a target framework moniker (TFM). You specify the target framework in the project file.
+  <TargetFramework>net9.0</TargetFramework>
+// or multiple target frameworks. Note that the element name is now plural.
+  <TargetFrameworks>net8.0;net47</TargetFrameworks>
 ```
 
 ## How to Run the Program
@@ -187,7 +186,8 @@ class Program
 ```csharp
 using System;
 
-namespace CRC_CSD_01;
+namespace CRC_CSD_01; // File scoped namespaces
+
 class Program
 {
     // string[] args: parameters passed to the main function.
@@ -277,10 +277,10 @@ class Program
 # External Resources
 
 * Additional IDEs
-  * [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
+  * [Visual Studio](https://visualstudio.microsoft.com/vs/)
     * [Install Visual Studio](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2022)
   * [JetBrain Ridar](https://www.jetbrains.com/rider/)
 * [Microsoft Learn](https://learn.microsoft.com/en-us/)
 * [Debugging in VS Code](https://code.visualstudio.com/docs/csharp/debugging)
-* [Announcing the .NET MAUI extension for Visual Studio Code](https://devblogs.microsoft.com/visualstudio/announcing-the-dotnet-maui-extension-for-visual-studio-code/) 
+<!-- * [Announcing the .NET MAUI extension for Visual Studio Code](https://devblogs.microsoft.com/visualstudio/announcing-the-dotnet-maui-extension-for-visual-studio-code/)  -->
 * [Creating C4 and UML Diagrams Using PlantUML with VSCode Extension](https://medium.com/@robertdennyson/creating-c4-and-uml-diagrams-using-plantuml-with-vscode-extension-90032a21ec43)

@@ -6,14 +6,14 @@ title: "C# CheatSheet"
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
-last_modified_at: 2025-11-28
+last_modified_at: 2026-02-20
 ---
 
 C# CheatSheet is a website storing teaching material for c# development.
 
-# Table of Content
+<!-- # Table of Content -->
 
-
+<!-- 
 1. [Lecture Introduction and .NET setup](pages/setup/#c-environment-setup)
 2. [Introduction of C# and C# Basics](pages/basics/#c-basics)
 3. [Functions/Methods, Iteration/Recursion](pages/basics/#c-basic-syntax-part-ii)
@@ -33,4 +33,4 @@ C# CheatSheet is a website storing teaching material for c# development.
 17. [Serialization and Deserialization](pages/fileio/#serializing-objects)
 18. [Performance and Scalability](pages/performance/#net-processes)
 19. [Synchronously & Asynchronously Tasks]()
-20. [Deadlock]()
+20. [Deadlock]() -->
