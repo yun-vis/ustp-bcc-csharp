@@ -2,8 +2,10 @@
 main:
   - title: "Setup"
     url: /pages/setup
-  - title: "C# Basics"
-    url: /pages/basics
+  - title: "C# Basics I"
+    url: /pages/basics1
+  - title: "C# Basics II"
+    url: /pages/basics2
   - title: "Class"
     url: /pages/class
   - title: "Inheritance"
