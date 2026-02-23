@@ -3,7 +3,7 @@ theme: null   # REQUIRED because you're using a remote theme
 remote_theme: "mmistakes/minimal-mistakes@4.24.0" # REQUIRED to specify the theme and version
 
 # Site Settings
-title             : "C# CheatSheett"
+title             : "C# CheatSheet"
 name              : "C# CheatSheet"
 description       : "This website documents Hsiang-Yun Wu's teaching activities on C#"
 url               : "https://yun-vis.github.io/ustp-bcc-csharp"

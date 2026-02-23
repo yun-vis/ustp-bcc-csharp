@@ -13,9 +13,9 @@ C# CheatSheet is a website storing teaching material for c# development.
 
 # Table of Content
 
-1. [Lecture Introduction and .NET setup](pages/setup/#c-environment-setup)
-2. [Introduction of C# and C# Basics](pages/basics/#c-basics-syntax-part-i)
-3. [Functions/Methods, Iteration/Recursion](pages/basics/#c-basic-syntax-part-ii)
+1. [Lecture Introduction and .NET setup](pages/setup)
+2. [Introduction of C# and C# Basics](pages/basics1)
+3. [Functions/Methods, Iteration/Recursion](pages/basics2)
   
 <!--  
 1. [OOP I: Class and Encapsulation](pages/class/#class)
