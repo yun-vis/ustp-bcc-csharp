@@ -131,7 +131,7 @@ In CRC_CSD-00.csproj [Doc](https://docs.microsoft.com/en-us/aspnet/web-forms/ove
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -144,7 +144,7 @@ In CRC_CSD-00.csproj
 // You build your project against APIs defined in a target framework moniker (TFM). You specify the target framework in the project file.
   <TargetFramework>net9.0</TargetFramework>
 // or multiple target frameworks. Note that the element name is now plural.
-  <TargetFrameworks>net8.0;net47</TargetFrameworks>
+  <TargetFrameworks>net10.0;net8.0;net47</TargetFrameworks>
 ```
 
 ## How to Run the Program
