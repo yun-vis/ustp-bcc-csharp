@@ -6,8 +6,12 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
+kramdown:
+  auto_ids: true
 last_modified_at: 2026-02-24
 ---
+
+# Test
 
 # Data Structure II
 

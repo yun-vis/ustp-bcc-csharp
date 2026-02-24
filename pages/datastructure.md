@@ -9,7 +9,7 @@ header:
 last_modified_at: 2025-06-24
 ---
 
-# Data Structure
+# Console Project vs. Library Project
 
 ## Create the MyBusiness console project
 
