@@ -9,7 +9,6 @@ header:
 last_modified_at: 2025-02-23
 ---
 
-
 # C# Basic Syntax (PART II)
 
 ## Using Methods
@@ -155,7 +154,7 @@ $ 16
 ```
 
 ---
-# Selected Theory
+# Computational Thinking 
 
 ## Recursion vs. Iteration
 
