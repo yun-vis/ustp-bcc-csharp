@@ -8,17 +8,21 @@ main:
     url: /pages/basics2
   - title: "Class"
     url: /pages/class
+  - title: "File Management"
+    url: /pages/filemanagement
   - title: "Inheritance"
     url: /pages/inheritance
   - title: "Polymorphism"
     url: /pages/polymorphism
-  - title: "Data Structure & Algorithm"
+  - title: "Data Structure"
+    url: /pages/datastructure
+  - title: "Algorithm"
     url: /pages/algorithm
   - title: "Collections"
     url: /pages/collection
   - title: ".Net Type"
     url: /pages/dotnettype
-  - title: ".Net File Management"
+  - title: "Nuget"
     url: /pages/nuget
   - title: ".Net MAUI"
     url: /pages/dotnetmaui

@@ -223,51 +223,6 @@ class Program
   * Acknowledgments
 
 
----
-# Selected Theory
-
-## Naming Convention [Doc](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
-
-### Pascal Case
-Use pascal casing ("PascalCasing") when naming a class, record, or struct. When naming public members of types, such as fields, properties, events, methods, and local functions, use pascal casing. When naming an interface, use pascal casing in addition to prefixing the name with an I. This clearly indicates to consumers that it's an interface.
-
-### Camel Case
-Use camel casing ("camelCasing") when naming private or internal fields, and prefix them with _.
-
-## Comments, an Example
-```csharp
-// This is a single line comment
-
-/*
-This is a multi-line comment
-and continues until the end
-of comment symbol is reached
-*/
-
-/*
-The following codes show how I often add comments to my programs.
-This is a my application namespace, called My Business.
-*/
-namespace CRC_CSD_01;
-/*
-The class of my main program
-*/
-class Program
-{
-    /*
-    Main: The class of my main program, where the application begins.
-    Input:
-      args: input parameters
-    Output:
-      none
-    */
-    static void Main(string[] args)
-    {
-        System.Console.WriteLine("Hello World!");
-    }
-}
-```
-
 # Potential Errors
 
 * Explorer in VSCode is missing. Ctrl+Shift+P to enable the vscode Command Palette and run the command "View: Reset View Locations".

@@ -12,7 +12,6 @@ last_modified_at: 2025-02-23
 
 # C# Basic Syntax (PART II)
 
-
 ## Using Methods
 
 A method is a code block that contains a series of statements.
@@ -101,7 +100,6 @@ Console.WriteLine(Math.Sqrt(9));
 ```bash
 $ 3
 ```
-
 
 ### Call by Value vs. Call by Reference
 Passing parameters in a method can be done by deep copying or referencing.
@@ -361,6 +359,50 @@ $ A Fibonacci Sequence of elements 5 using Recursion is: 0 1 1 2 3
 $ A Fibonacci Sequence of elements 5 using Iteration is: 0 1 1 2 3
 ```
 
+---
+# Selected Theory
+
+## Naming Convention [Doc](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
+
+### Pascal Case
+Use pascal casing ("PascalCasing") when naming a class, record, or struct. When naming public members of types, such as fields, properties, events, methods, and local functions, use pascal casing. When naming an interface, use pascal casing in addition to prefixing the name with an I. This clearly indicates to consumers that it's an interface.
+
+### Camel Case
+Use camel casing ("camelCasing") when naming private or internal fields, and prefix them with _.
+
+## Comments, an Example
+```csharp
+// This is a single line comment
+
+/*
+This is a multi-line comment
+and continues until the end
+of comment symbol is reached
+*/
+
+/*
+The following codes show how I often add comments to my programs.
+This is a my application namespace, called My Business.
+*/
+namespace CRC_CSD_01;
+/*
+The class of my main program
+*/
+class Program
+{
+    /*
+    Main: The class of my main program, where the application begins.
+    Input:
+      args: input parameters
+    Output:
+      none
+    */
+    static void Main(string[] args)
+    {
+        System.Console.WriteLine("Hello World!");
+    }
+}
+```
 
 ---
 # External Resources
