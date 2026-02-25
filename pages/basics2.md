@@ -104,53 +104,68 @@ $ 3
 Passing parameters in a method can be done by deep copying or referencing.
 
 ```csharp
+namespace CRC_CSD_03; // File scoped namespaces
+
 using System;
 
-namespace CRC_CSD_03
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            int number = 4;
-            SquareVal(number);
-            Console.WriteLine(number);
-            // Output: 4
+        int number = 4;
+        SquareVal(number);
+        Console.WriteLine(number);
+        // Output: 4
 
-            SquareRef(ref number);
-            Console.WriteLine(number);
-            // Output: 16
-        }
+        // ref is used to state that the parameter passed may be modified by the method.
+        SquareRef(ref number);
+        Console.WriteLine(number);
+        // Output: 16
 
-        /*
-        SquareVal: square a number.
-        Input:
-          num: int
-        Output:
-          none
-        */
-        static void SquareVal(int num)
-        {
-            num *= num; // num = num * num
-        }
+        int result;        
+        // in is used to state that the parameter passed cannot be modified by the method.
+        // out is used to state that the parameter passed must be modified by the method.
+        SquareRef(in number, out result);
+        Console.WriteLine(result);
+        // Output: 256
+    }
 
-        /*
-        SquareVal: square a number.
-        Input:
-          num: ref int
-        Output:
-          none
-        */
-        static void SquareRef(ref int num)
-        {
-            num *= num; // num = num * num
-        }
+    /*
+    SquareVal: square a number.
+    Input:
+        num: int
+    Output:
+        none
+    */
+    static void SquareVal(int num)
+    {
+        num *= num; // num = num * num
+    }
+
+    /*
+    SquareRef: square a number.
+    Input:
+        num: ref int
+    Output:
+        none
+    */
+    static void SquareRef(ref int num)
+    {
+        num *= num; // num = num * num
+    }
+
+    static void SquareRef(in int num, out int result)
+    {
+        // This will generate an error
+        // num *= num; // num = num * num
+        result = num * num;
     }
 }
 ```
 ```bash
 $ 4
 $ 16
+$ 256
 ```
 
 ---
@@ -161,59 +176,58 @@ $ 16
 Factorial of a Given Number can be implemented using **Recursion** or **Iteration**.
 
 ```csharp
+namespace CRC_CSD_03;
+
 using System;
 
-namespace CRC_CSD_03
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            int num = 5;
-            Console.WriteLine("Factorial of " + num +
-                              " using Recursion is: " +
-                              FactorialUsingRecursion(num));
+        int num = 5;
+        Console.WriteLine("Factorial of " + num +
+                            " using Recursion is: " +
+                            FactorialUsingRecursion(num));
 
-            Console.WriteLine("Factorial of " + num +
-                              " using Iteration is: " +
-                              FactorialUsingIteration(num));
+        Console.WriteLine("Factorial of " + num +
+                            " using Iteration is: " +
+                            FactorialUsingIteration(num));
+    }
+
+    /*
+    FactorialUsingRecursion: find factorial of given number using recurrsion.
+    Input:
+        num: int
+    Output:
+        int
+    */
+    static int FactorialUsingRecursion(int n)
+    {
+        if (n == 1)
+            return 1;
+
+        // recursion call
+        return n * FactorialUsingRecursion(n - 1);
+    }
+
+    /*
+    FactorialUsingIteration: find factorial of given number using iteration.
+    Input:
+        num: int
+    Output:
+        int
+    */
+    static int FactorialUsingIteration(int n)
+    {
+        int res = 1;
+
+        // using iteration
+        for (int i = 2; i <= n; i++) 
+        {
+            res *= i;
         }
 
-        /*
-        FactorialUsingRecursion: find factorial of given number using recurrsion.
-        Input:
-          num: int
-        Output:
-          int
-        */
-        static int FactorialUsingRecursion(int n)
-        {
-            if (n == 1)
-                return 1;
-
-            // recursion call
-            return n * FactorialUsingRecursion(n - 1);
-        }
-
-        /*
-        FactorialUsingIteration: find factorial of given number using iteration.
-        Input:
-          num: int
-        Output:
-          int
-        */
-        static int FactorialUsingIteration(int n)
-        {
-            int res = 1;
-
-            // using iteration
-            for (int i = 2; i <= n; i++) 
-            {
-                res *= i;
-            }
-
-            return res;
-        }
+        return res;
     }
 }
 ```
@@ -226,128 +240,127 @@ $ Factorial of 5 using Iteration is: 120
 Fibonacci Sequence can be implemented using **Recursion** or **Iteration**.
 
 ```csharp
+namespace CRC_CSD_03;
+
 using System;
 
-namespace CRC_CSD_03
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        // initialization
+        int num = 5;
+        int[] sequence = new int[num];
+
+        // Calculate and print out the Fibonacci Sequence
+        // Recurrsion
+        resetFibonacciSequence(sequence);
+        Console.Write("A Fibonacci Sequence of elements " + num +
+                            " using Recursion is: ");
+        FibonacciUsingRecursion(num, sequence);
+        printFibonacciSequence(sequence);
+
+        // Iteration
+        resetFibonacciSequence(sequence);
+        Console.Write("A Fibonacci Sequence of elements " + num +
+                            " using Iteration is: ");
+        FibonacciUsingIteration(num, sequence);
+        printFibonacciSequence(sequence);
+    }
+
+    /*
+    resetFibonacciSequence: reset the sequence
+    Input:
+        sequence: int[]
+    Output:
+        none
+    */
+    static void resetFibonacciSequence(int[] sequence)
+    {
+        for (int i = 0; i < sequence.Length; i++)
         {
-            // initialization
-            int num = 5;
-            int[] sequence = new int[num];
-
-            // Calculate and print out the Fibonacci Sequence
-            // Recurrsion
-            resetFibonacciSequence(sequence);
-            Console.Write("A Fibonacci Sequence of elements " + num +
-                              " using Recursion is: ");
-            FibonacciUsingRecursion(num, sequence);
-            printFibonacciSequence(sequence);
-
-            // Iteration
-            resetFibonacciSequence(sequence);
-            Console.Write("A Fibonacci Sequence of elements " + num +
-                              " using Iteration is: ");
-            FibonacciUsingIteration(num, sequence);
-            printFibonacciSequence(sequence);
+            sequence[i] = -1;
         }
+    }
 
-        /*
-        resetFibonacciSequence: reset the sequence
-        Input:
-          sequence: int[]
-        Output:
-          none
-        */
-        static void resetFibonacciSequence(int[] sequence)
+    /*
+    printFibonacciSequence: print the sequence
+    Input:
+        sequence: int[]
+    Output:
+        none
+    */
+    static void printFibonacciSequence(int[] sequence)
+    {
+        for (int i = 0; i < sequence.Length; i++)
         {
-            for (int i = 0; i < sequence.Length; i++)
-            {
-                sequence[i] = -1;
-            }
+            Console.Write(sequence[i] + " ");
         }
+        Console.WriteLine("");
+    }
 
-        /*
-        printFibonacciSequence: print the sequence
-        Input:
-          sequence: int[]
-        Output:
-          none
-        */
-        static void printFibonacciSequence(int[] sequence)
+    /*
+    FibonacciUsingRecursion: find the Fibonacci sequence of a given element 
+    number using recurrsion.
+    Input:
+        num: int
+        sequence: int[]
+    Output:
+        int
+    */
+    static int FibonacciUsingRecursion(int num, int[] sequence)
+    {
+        if (num == 1)
         {
-            for (int i = 0; i < sequence.Length; i++)
-            {
-                Console.Write(sequence[i] + " ");
-            }
-            Console.WriteLine("");
+            sequence[0] = 0;
+            return 0;
         }
-
-        /*
-        FibonacciUsingRecursion: find the Fibonacci sequence of a given element 
-        number using recurrsion.
-        Input:
-          num: int
-          sequence: int[]
-        Output:
-          int
-        */
-        static int FibonacciUsingRecursion(int num, int[] sequence)
+        else if (num == 2)
         {
-            if (num == 1)
-            {
-                sequence[0] = 0;
-                return 0;
-            }
-            else if (num == 2)
-            {
-                sequence[0] = 0;
-                sequence[1] = 1;
-                return 1;
-            }
-            else
-            {
-                // recursion call
-                int value = FibonacciUsingRecursion(num - 2, sequence) 
-                            + FibonacciUsingRecursion(num - 1, sequence);
-                sequence[num - 1] = value;
-                return value;
-            }
+            sequence[0] = 0;
+            sequence[1] = 1;
+            return 1;
         }
-
-        /*
-        FibonacciUsingIteration: find the Fibonacci sequence of a given element 
-        number using iteration.
-        Input:
-          num: int
-          sequence: int[]
-        Output:
-          none
-        */
-        static void FibonacciUsingIteration(int num, int[] sequence)
+        else
         {
-            if (num == 1)
+            // recursion call
+            int value = FibonacciUsingRecursion(num - 2, sequence) 
+                        + FibonacciUsingRecursion(num - 1, sequence);
+            sequence[num - 1] = value;
+            return value;
+        }
+    }
+
+    /*
+    FibonacciUsingIteration: find the Fibonacci sequence of a given element 
+    number using iteration.
+    Input:
+        num: int
+        sequence: int[]
+    Output:
+        none
+    */
+    static void FibonacciUsingIteration(int num, int[] sequence)
+    {
+        if (num == 1)
+        {
+            sequence[0] = 0;
+            return;
+        }
+        else if (num == 2)
+        {
+            sequence[0] = 0;
+            sequence[1] = 1;
+            return;
+        }
+        else
+        {
+            sequence[0] = 0;
+            sequence[1] = 1;
+            // using iteration
+            for (int i = 2; i < num; i++)
             {
-                sequence[0] = 0;
-                return;
-            }
-            else if (num == 2)
-            {
-                sequence[0] = 0;
-                sequence[1] = 1;
-                return;
-            }
-            else
-            {
-                sequence[0] = 0;
-                sequence[1] = 1;
-                // using iteration
-                for (int i = 2; i < num; i++)
-                {
-                    sequence[i] = sequence[i - 2] + sequence[i - 1];
-                }
+                sequence[i] = sequence[i - 2] + sequence[i - 1];
             }
         }
     }
@@ -406,3 +419,7 @@ class Program
 ---
 # External Resources
 
+- [Method Overloading/Function Overloading](https://www.w3schools.com/cs/cs_method_overloading.php)
+- [out (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out)
+- [ref (C# Reference)] (https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref)
+- [Heap Memory vs. Stack Memory](https://www.geeksforgeeks.org/dsa/stack-vs-heap-memory-allocation/)
