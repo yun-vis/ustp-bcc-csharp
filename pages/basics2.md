@@ -6,7 +6,7 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
-last_modified_at: 2025-02-23
+last_modified_at: 2025-02-25
 ---
 
 # C# Basic Syntax (PART II)
@@ -421,5 +421,5 @@ class Program
 
 - [Method Overloading/Function Overloading](https://www.w3schools.com/cs/cs_method_overloading.php)
 - [out (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out)
-- [ref (C# Reference)] (https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref)
+- [ref (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref)
 - [Heap Memory vs. Stack Memory](https://www.geeksforgeeks.org/dsa/stack-vs-heap-memory-allocation/)
