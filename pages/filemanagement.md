@@ -6,11 +6,13 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"  
-last_modified_at: 2026-02-24
+last_modified_at: 2026-02-27
 ---
 
 # Other Properties of Methods
-## Types of the Methods
+
+## Types of the Methods (Instance/Static) and Operator Overloading
+
 * **Instance methods** are actions that an object does to itself.
   * A mom cat procreates a kitty by taking a dad cat as an input.
   * The mom cat cannot produce kitties from multiple dad cats.
@@ -19,131 +21,150 @@ last_modified_at: 2026-02-24
   * The owner can pair many cat couples at the same time.
 
 ```csharp
-using Animals;
+using System;
 
-namespace program
+namespace MyBusiness; // File scoped namespaces
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        // Create 3 cats and initialize them
+        Cat[] cats = {
+            new Cat("Nana", new DateTime(2019, 12, 9)), // 2029
+            new Cat("Coffee", new DateTime(2019, 6, 20)),
+            new Cat("Kiwi", new DateTime(2018, 11, 19))
+        };
+
+        // Call instance method
+        Cat kitty1 = cats[0].ProduceKittyWith(cats[1]);
+
+        // Call static method
+        Cat kitty2 = Cat.ProduceKitty(cats[2], cats[1]);
+        // The following statement functions as the above one
+        // Cat kitty2 = cats[2] * cats[1];
+
+        // Print out the present content
+        foreach (Cat cat in cats)
         {
-            // Create 3 cats and initialize them
-            Cat[] cats = {
-                new Cat("Nana", new DateTime(2019, 12, 9)),
-                new Cat("Coffee", new DateTime(2019, 6, 20)),
-                new Cat("Kiwi", new DateTime(2018, 11, 19))
-            };
-
-            // Print out the present content
-            foreach (Cat cat in cats)
-            {
-                cat.WriteToConsole();
-            }
-
-            // Call instance method
-            Cat kitty1 = cats[0].ProduceKittyWith(cats[1]);
-            kitty1.Name = "Naffee";
-            // Call static method
-            Cat kitty2 = Cat.ProduceKitty(cats[2], cats[1]);
-            // The following statement functions as the above one
-            // Cat kitty2 = kiwi * coffee;
-            kitty2.Name = "Kiffee";
-
-            // Print out the kitty name
-            foreach (Cat cat in cats)
-            {
-                Console.WriteLine($"{cat.Name} has {cat.Children.Count} kitty.");
-            }
-            Console.WriteLine(
-            format: "{0}'s first kitty is named \"{1}\".",
-            arg0: cats[1].Name,
-            arg1: cats[1].Children[0].Name);
+            cat.WriteToConsole();
         }
+
+        // Use Console.WriteLine with arguments
+        Console.WriteLine(
+        format: "{0}'s first kitty is named \"{1}\".",
+        arg0: cats[1].Name,
+        arg1: cats[1].Children[0].Name);
     }
 }
 
+
 /*
-The animal namespace
+The cat class
 */
-namespace Animals
+public class Cat
 {
-    public class Cat
+    /*
+    Class field, including different variables
+    they can be organized by similar characteristics
+    */
+    // In C#, a backing field is a private variable that stores the actual data for a property.
+    private DateTime _dateOfBirth;
+    // The children of the cat
+    public List<Cat> Children = new List<Cat>();
+
+    /*
+    Class properties
+    */
+    // The name of the cat
+    public string Name { get; private set; }
+    // The birthday of the cat
+    public DateTime DateOfBirth
     {
-        /*
-        Class field, including different variables
-        they can be organized by similar characteristics
-        */
-
-        // The name of the cat
-        public string Name;
-        // The birthday of the cat
-        public DateTime DateOfBirth;
-        // The children of the cat
-        public List<Cat> Children = new List<Cat>();
-
-        /*
-        Class methods, where functions should be implemented
-        */
-
-        // Constructors
-        // Default constructor. It will be called by default
-        public Cat()
+        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        get
         {
-            Name = "UnknownCat";
-            DateOfBirth = DateTime.Today;
-        }
-        // Parameterized Constructor
-        public Cat(string name, DateTime dateOfBirth)
-        {
-            this.Name = name;
-            this.DateOfBirth = dateOfBirth;
-        }
-        // Finalizer/Desctructor
-        ~Cat()
-        {
+            return _dateOfBirth;
         }
 
-        // Print out method
-        public void WriteToConsole()
+        private set
         {
-            Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd}.");
-        }
+            // Stack overflow. Repeated 24114 times.
+            // DateOfBirth = value;
 
-        // Static method to "multiply"
-        public static Cat ProduceKitty(Cat cat1, Cat cat2)
-        {
-            Cat kitty = new Cat
-            {
-                Name = $"Baby of {cat1.Name} and {cat2.Name}"
-            };
-            cat1.Children.Add(kitty);
-            cat2.Children.Add(kitty);
-            return kitty;
-        }
+            // Data validation
+            if (value > DateTime.Today)
+                throw new ArgumentException("Date of birth must be in the past.");
 
-        // Use operators instead of the above method
-        public static Cat operator *(Cat cat1, Cat cat2)
-        {
-            return Cat.ProduceKitty(cat1, cat2);
+            _dateOfBirth = value;
         }
+    }
 
-        // Instance method to "multiply"
-        public Cat ProduceKittyWith(Cat partner)
-        {
-            return ProduceKitty(this, partner);
-        }
+    /*
+    Class methods, where functions should be implemented
+    */
+
+    // Constructors
+    // Default constructor. It will be called by default
+    public Cat()
+    {
+        Name = "UnknownCat";
+        DateOfBirth = DateTime.Today;
+    }
+    // Parameterized Constructor
+    public Cat(string name, DateTime dateOfBirth)
+    {
+        this.Name = name;
+        this.DateOfBirth = dateOfBirth;
+    }
+    // Finalizer/Desctructor
+    ~Cat()
+    {
+    }
+
+    // Print out method
+    public void WriteToConsole()
+    {
+        Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd} and has {Children.Count} kitties.");
+    }
+
+    // Static method to "multiply"
+    public static Cat ProduceKitty(Cat cat1, Cat cat2)
+    {
+        Cat kitty = new Cat ($"{cat1.Name}-{cat2.Name}", DateTime.Today);
+        // The same functionaly as above
+        // Cat kitty = new Cat
+        // {
+        //     Name = $"{cat1.Name}-{cat2.Name}",
+        //     DateOfBirth = DateTime.Today
+        // };
+        cat1.Children.Add(kitty);
+        cat2.Children.Add(kitty);
+        return kitty;
+    }
+
+    // Use operators instead of the above method
+    public static Cat operator *(Cat cat1, Cat cat2)
+    {
+        return Cat.ProduceKitty(cat1, cat2);
+    }
+
+    // Instance method to "multiply"
+    public Cat ProduceKittyWith(Cat partner)
+    {
+        return ProduceKitty(this, partner);
     }
 }
 ```
 ```bash
-$ Nana was born on a Monday.
-$ Coffee was born on a Thursday.
-$ Kiwi was born on a Monday.
-$ Nana has 1 kitty.
-$ Coffee has 2 kitty.
-$ Kiwi has 1 kitty.
-$ Coffee\'s first kitty is named "Kiffee".
+$ Nana was born on a Monday and has 1 kitties.
+$ Coffee was born on a Thursday and has 2 kitties.
+$ Kiwi was born on a Monday and has 1 kitties.
+$ Coffee's first kitty is named "Nana-Coffee".
 ```
+
+<!-- ## Lazy Initialization -->
+
 
 ## Local (Nested/Inner) Functions
 
@@ -187,7 +208,7 @@ In MyBusiness.csproj, you see the configuration of the program
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -206,46 +227,75 @@ In MyBusiness.csproj, you see the configuration of the program
 
 In MyBusiness/Program.cs,
 ```csharp
+
 using System;
 using PetLibrary;
 
-// namespace
-namespace MyBusiness
-{
-    // Main program
-    public class Program
-    {
-        static void Main(string[] args)
-        {
-            // Create a cat
-            Cat nana = new Cat("Nana", new DateTime(2019, 12, 9));
-            nana.WriteToConsole();
+namespace MyBusiness; // File scoped namespaces
 
-            OwnPets myPets = new OwnPets();
-            myPets.WriteToConsole();
-        }
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create a cat
+        Cat nana = new Cat("Nana", new DateTime(2019, 12, 9));
+        nana.WriteToConsole();
+
+        // Create a dog
+        // Error: 'Dog' is inaccessible due to its protection level
+        // Dog aDog = new Dog();
+
+        // Create pets
+        OwnPets myPets = new OwnPets();
+        myPets.WriteToConsole();
     }
 }
 ```
 
 In PetLibrary/Cat.cs,
 ```csharp
-// The same as namespace PetLibrary{}. We use ";" just to save indent spac
+// The same as namespace PetLibrary{}. We use ";" just to save indent space
 namespace PetLibrary;
 
+/*
+Cat class
+*/
 public class Cat
 {
     /*
     Class field, including different variables
     they can be organized by similar characteristics
     */
-
-    // The name of the cat
-    public string Name;
-    // The birthday of the cat
-    public DateTime DateOfBirth;
     // The children of the cat
+    private DateTime _dateOfBirth;
     public List<Cat> Children = new List<Cat>();
+
+    /*
+    Class properties
+    */
+    // The name of the cat
+    public string Name { get; private set; }
+    // The birthday of the cat
+    public DateTime DateOfBirth
+    {
+        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        get
+        {
+            return _dateOfBirth;
+        }
+
+        private set
+        {
+            // Stack overflow. Repeated 24114 times.
+            // DateOfBirth = value;
+
+            // Data validation
+            if (value > DateTime.Today)
+                throw new ArgumentException("Date of birth must be in the past.");
+
+            _dateOfBirth = value;
+        }
+    }
 
     /*
     Class methods, where functions should be implemented
@@ -264,7 +314,7 @@ public class Cat
         this.Name = name;
         this.DateOfBirth = dateOfBirth;
     }
-    // Finalizer
+    // Finalizer/Desctructor
     ~Cat()
     {
     }
@@ -272,24 +322,25 @@ public class Cat
     // Print out method
     public void WriteToConsole()
     {
-        Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd}.");
+        Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd} and has {Children.Count} kitties.");
     }
 
     // Static method to "multiply"
     public static Cat ProduceKitty(Cat cat1, Cat cat2)
     {
-        Cat kitty = new Cat
-        {
-            Name = $"Baby of {cat1.Name} and {cat2.Name}"
-        };
+        Cat kitty = new Cat ($"{cat1.Name}-{cat2.Name}", DateTime.Today);
+        // The same functionaly as above
+        // Cat kitty = new Cat
+        // {
+        //     Name = $"{cat1.Name}-{cat2.Name}",
+        //     DateOfBirth = DateTime.Today
+        // };
         cat1.Children.Add(kitty);
         cat2.Children.Add(kitty);
         return kitty;
     }
 
     // Use operators instead of the above method
-    // This is called operator overloading, allowing us to redefine 
-    // an existing operator
     public static Cat operator *(Cat cat1, Cat cat2)
     {
         return Cat.ProduceKitty(cat1, cat2);
@@ -367,94 +418,152 @@ The basic difference is that a **class** has both a definition and an implementa
 In MyBusiness/Program.cs,
 ```csharp
 using System;
-using Animals;
+using PetLibrary;
 
-// namespace
-namespace MyBusiness
+namespace MyBusiness; // File scoped namespaces
+
+class Program
 {
-    // Main program
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        // Create a cat
+        Cat[] cats =
         {
-            // Create a cat
-            Cat nana = new Cat("Nana", new DateTime(2019, 12, 9));
+            new Cat("Nana", new DateTime(2019, 12, 9)),
+            new Cat("Coffee", new DateTime(2019, 6, 20)),
+            new Cat("Kiwi", new DateTime(2018, 11, 19))
+        };
 
-            nana.Speed = 10;
-            double speed = nana.SpeedUp(2);
-            Console.WriteLine($"{nana.Name} is running at speed {speed} km/hr."); 
-        }
+        double speed = cats[0].SpeedUp(2);
+        Console.WriteLine($"{cats[0].Name} is running at speed {speed} km/hr.");
     }
 }
 ```
-In PetLibrary/Animals.cs,
+In PetLibrary/Cat.cs,
 ```csharp
+// The same as namespace PetLibrary{}. We use ";" just to save indent space
+namespace PetLibrary;
+
+
 /*
-The animal namespace
+Cat class
 */
-namespace Animals
+public class Cat : IRun
 {
-    public class Cat : IRun
-    // ":" operator allows Cat class to reuse what has been defined in IRun.
-    // Naming convention: add I for an interface name.
+    /*
+    Class field, including different variables
+    they can be organized by similar characteristics
+    */
+    // The children of the cat
+    private DateTime _dateOfBirth;
+    public List<Cat> Children = new List<Cat>();
+
+    /*
+    Class properties
+    */
+    // The name of the cat
+    public string Name { get; private set; }
+    // The birthday of the cat
+    public DateTime DateOfBirth
     {
-        /*
-        Class field, including different variables
-        they can be organized by similar characteristics
-        */
-
-        // The name of the cat
-        public string Name;
-        // The birthday of the cat
-        public DateTime DateOfBirth;
-
-        /*
-        Class methods, where functions should be implemented
-        */
-
-        // Constructors
-        // Default constructor. It will be called by default
-        public Cat()
+        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        get
         {
-            Speed = 0.0;
-            Name = "UnknownCat";
-            DateOfBirth = DateTime.Today;
-        }
-        // Parameterized Constructor
-        public Cat(string name, DateTime dateOfBirth)
-        {
-            Speed = 0.0;
-            this.Name = name;
-            this.DateOfBirth = dateOfBirth;
-        }
-        // Finalizer
-        ~Cat()
-        {
+            return _dateOfBirth;
         }
 
-        // Implementation of interface IRun
-        public double Speed { get; set; }
-        public int Distance { get; }
-        public double SpeedUp(double velocity)
+        private set
         {
-            Speed += velocity;
-            return Speed;
+            // Stack overflow. Repeated 24114 times.
+            // DateOfBirth = value;
+
+            // Data validation
+            if (value > DateTime.Today)
+                throw new ArgumentException("Date of birth must be in the past.");
+
+            _dateOfBirth = value;
         }
     }
 
-    // IRun is an interface
-    // You have variables and methods, but you don't implement them.
-    // No access modifier is allowed.
-    interface IRun
-    {
-        // Instance field
-        // double Velocity; // compile error
-        // Property
-        double Speed { get; set; }
-        int Distance { get; }
+    /*
+    Class methods, where functions should be implemented
+    */
 
-        double SpeedUp(double velocity);
+    // Constructors
+    // Default constructor. It will be called by default
+    public Cat()
+    {
+        Name = "UnknownCat";
+        DateOfBirth = DateTime.Today;
+        Speed = 0.0;
     }
+    // Parameterized Constructor
+    public Cat(string name, DateTime dateOfBirth)
+    {
+        this.Name = name;
+        this.DateOfBirth = dateOfBirth;
+        Speed = 0.0;
+    }
+    // Finalizer/Desctructor
+    ~Cat()
+    {
+    }
+
+    // Print out method
+    public void WriteToConsole()
+    {
+        Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd} and has {Children.Count} kitties.");
+    }
+
+    // Static method to "multiply"
+    public static Cat ProduceKitty(Cat cat1, Cat cat2)
+    {
+        Cat kitty = new Cat($"{cat1.Name}-{cat2.Name}", DateTime.Today);
+        // The same functionaly as above
+        // Cat kitty = new Cat
+        // {
+        //     Name = $"{cat1.Name}-{cat2.Name}",
+        //     DateOfBirth = DateTime.Today
+        // };
+        cat1.Children.Add(kitty);
+        cat2.Children.Add(kitty);
+        return kitty;
+    }
+
+    // Use operators instead of the above method
+    public static Cat operator *(Cat cat1, Cat cat2)
+    {
+        return Cat.ProduceKitty(cat1, cat2);
+    }
+
+    // Instance method to "multiply"
+    public Cat ProduceKittyWith(Cat partner)
+    {
+        return ProduceKitty(this, partner);
+    }
+
+    // Implementation of interface IRun
+    public double Speed { get; private set; }
+    public int Distance { get; }
+    public double SpeedUp(double velocity)
+    {
+        Speed += velocity;
+        return Speed;
+    }
+}
+
+// IRun is an interface
+// You have variables and methods, but you don't implement them.
+// Interfaces default to internal access
+public interface IRun
+{
+    // Instance field
+    // double Velocity; // compile error
+    // Property
+    double Speed { get; }
+    int Distance { get; }
+
+    double SpeedUp(double velocity);
 }
 ```
 ```bash
@@ -466,111 +575,184 @@ $ Nana is running at speed 2 km/hr.
 In MyBusiness/Program.cs,
 ```csharp
 using System;
-using Animals;
+using PetLibrary;
 
-// namespace
-namespace MyBusiness
+namespace MyBusiness; // File scoped namespaces
+
+class Program
 {
-    // main program
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        // Create cats
+        Cat[] cats =
         {
-            // Create a cat array
-            Cat[] cats =
-            {
-                new Cat("Nana", new DateTime(2019, 12, 9)),
-                new Cat("Coffee", new DateTime(2019, 6, 20)),
-                new Cat("Kiwi", new DateTime(2018, 11, 19))
-            };
+            new Cat("Nana", new DateTime(2019, 12, 9)),
+            new Cat("Coffee", new DateTime(2019, 6, 20)),
+            new Cat("Kiwi", new DateTime(2018, 11, 19))
+        };
 
-            // Print the array
-            foreach (Cat cat in cats)
-            {
-                cat.WriteToConsole();
-            }
+        // Print the array
+        foreach (Cat cat in cats)
+        {
+            cat.WriteToConsole();
+        }
 
-            // Sort the array
-            Array.Sort(cats);
+        // Sort the array
+        Array.Sort(cats);
 
-            // Print the array again
-            Console.WriteLine("Use Cat's IComparable implementation to sort the cat instance:");
-            foreach (Cat cat in cats)
-            {
-                cat.WriteToConsole();
-            }
+        // Print the array again
+        Console.WriteLine("Use Cat's IComparable implementation to sort the cat instance:");
+        foreach (Cat cat in cats)
+        {
+            cat.WriteToConsole();
         }
     }
 }
 ```
-In PetLibrary/Animals.cs,
+In PetLibrary/Cat.cs,
 ```csharp
+// The same as namespace PetLibrary{}. We use ";" just to save indent space
+namespace PetLibrary;
+
 /*
-The animal namespace
+Cat class
 */
-namespace Animals
+public class Cat : IRun, IComparable<Cat>
 {
-    public class Cat : IComparable<Cat>
-    // You can check the definition of IComparible
+    /*
+    Class field, including different variables
+    they can be organized by similar characteristics
+    */
+    // The children of the cat
+    private DateTime _dateOfBirth;
+    public List<Cat> Children = new List<Cat>();
+
+    /*
+    Class properties
+    */
+    // The name of the cat
+    public string Name { get; private set; }
+    // The birthday of the cat
+    public DateTime DateOfBirth
     {
-        /*
-        Class field, including different variables
-        they can be organized by similar characteristics
-        */
-
-        // The name of the cat
-        public string Name;
-        // The birthday of the cat
-        public DateTime DateOfBirth;
-
-        /*
-        Class methods, where functions should be implemented
-        */
-
-        // Constructors
-        // Default constructor. It will be called by default
-        public Cat()
+        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        get
         {
-            Name = "UnknownCat";
-            DateOfBirth = DateTime.Today;
-        }
-        // Parameterized Constructor
-        public Cat(string name, DateTime dateOfBirth)
-        {
-            this.Name = name;
-            this.DateOfBirth = dateOfBirth;
-        }
-        // Finalizer
-        ~Cat()
-        {
+            return _dateOfBirth;
         }
 
-        // Print out method
-        public void WriteToConsole()
+        private set
         {
-            Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd}.");
-        }
+            // Stack overflow. Repeated 24114 times.
+            // DateOfBirth = value;
 
-        // Implementation of interface IComparible
-        // Also check the class "public class Cat : IComparable<Cat>"
-        public int CompareTo(Cat? anotherCat)
-        {
-            if (anotherCat != null)
-                return Name.CompareTo(anotherCat.Name);
-            else
-                return 0;
+            // Data validation
+            if (value > DateTime.Today)
+                throw new ArgumentException("Date of birth must be in the past.");
+
+            _dateOfBirth = value;
         }
     }
+
+    /*
+    Class methods, where functions should be implemented
+    */
+
+    // Constructors
+    // Default constructor. It will be called by default
+    public Cat()
+    {
+        Name = "UnknownCat";
+        DateOfBirth = DateTime.Today;
+        Speed = 0.0;
+    }
+    // Parameterized Constructor
+    public Cat(string name, DateTime dateOfBirth)
+    {
+        this.Name = name;
+        this.DateOfBirth = dateOfBirth;
+        Speed = 0.0;
+    }
+    // Finalizer/Desctructor
+    ~Cat()
+    {
+    }
+
+    // Print out method
+    public void WriteToConsole()
+    {
+        Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd} and has {Children.Count} kitties.");
+    }
+
+    // Static method to "multiply"
+    public static Cat ProduceKitty(Cat cat1, Cat cat2)
+    {
+        Cat kitty = new Cat($"{cat1.Name}-{cat2.Name}", DateTime.Today);
+        // The same functionaly as above
+        // Cat kitty = new Cat
+        // {
+        //     Name = $"{cat1.Name}-{cat2.Name}",
+        //     DateOfBirth = DateTime.Today
+        // };
+        cat1.Children.Add(kitty);
+        cat2.Children.Add(kitty);
+        return kitty;
+    }
+
+    // Use operators instead of the above method
+    public static Cat operator *(Cat cat1, Cat cat2)
+    {
+        return Cat.ProduceKitty(cat1, cat2);
+    }
+
+    // Instance method to "multiply"
+    public Cat ProduceKittyWith(Cat partner)
+    {
+        return ProduceKitty(this, partner);
+    }
+
+    // Implementation of interface IRun
+    public double Speed { get; private set; }
+    public int Distance { get; }
+    public double SpeedUp(double velocity)
+    {
+        Speed += velocity;
+        return Speed;
+    }
+
+    // Implementation of interface IComparible
+    // Also check the class "public class Cat : IComparable<Cat>"
+    public int CompareTo(Cat? anotherCat)
+    {
+        if (anotherCat != null)
+            return Name.CompareTo(anotherCat.Name);
+        else
+            return 0;
+    }
+}
+
+// IRun is an interface
+// You have variables and methods, but you don't implement them.
+// Interfaces default to internal access
+public interface IRun
+{
+    // Instance field
+    // double Velocity; // compile error
+    // Property
+    double Speed { get; }
+    int Distance { get; }
+
+    double SpeedUp(double velocity);
 }
 ```
 ```bash
-$ Nana was born on a Monday.
-$ Coffee was born on a Thursday.
-$ Kiwi was born on a Monday.
-$ Use Cat\'s IComparable implementation to sort the cat instance:
-$ Coffee was born on a Thursday.
-$ Kiwi was born on a Monday.
-$ Nana was born on a Monday.
+$ Nana was born on a Monday and has 0 kitties.
+$ Coffee was born on a Thursday and has 0 kitties.
+$ Kiwi was born on a Monday and has 0 kitties.
+$ Use Cat's IComparable implementation to sort the cat instance:
+$ Coffee was born on a Thursday and has 0 kitties.
+$ Kiwi was born on a Monday and has 0 kitties.
+$ Nana was born on a Monday and has 0 kitties.
 ```
 
 ---
@@ -585,3 +767,9 @@ $ Nana was born on a Monday.
 * Create and publish a package with the dotnet CLI [Doc](https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli)
 
 * Visual Studio Code Tips and Tricks [Doc](https://code.visualstudio.com/docs/getstarted/tips-and-tricks)
+
+## Assembly
+
+* When you write C# code and compile it (using tools like the Microsoft .NET SDK), it gets turned into an assembly. This is usually a *.exe file (executable program) or a *.dll file (reusable library)
+
+* [Assemblies in .NET](https://learn.microsoft.com/en-us/dotnet/standard/assembly/)

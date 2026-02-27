@@ -103,7 +103,7 @@ int[,] twoDArray = new int[4, 2];
 var a = 1+2;
 var subTotal = 0.2;
 var salesTax = 0.1;
-var totalPrice = subTotal + salesTax;   // ambigious, can be float, double, or decimal, so which one is it here?
+var totalPrice = subTotal + salesTax;   // ambiguous, can be float, double, or decimal, so which one is it here?
                                         // based on the types of subTotal and  salesTax.
 
 if (totalPrice == 0.3)
@@ -234,7 +234,7 @@ Console.WriteLine(Convert.ToString(c, toBase: 2));
 
 ## Conditional Control (Selection)
 
-### if Statements / if and else / if and ilse if
+### if Statements / if and else / if and else if
 
 ```csharp
 int num = 10;
@@ -291,7 +291,7 @@ void DisplayNum(double num)
             break;
         case 5:
             goto case 1;  // jump, usually not preferred
-        default:  // Usually for debug purpose.
+        default:  // Usually for debugging purpose.
             Console.WriteLine($"The num is {num}.");
             break;
     }

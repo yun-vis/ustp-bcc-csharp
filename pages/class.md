@@ -6,14 +6,14 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"  
-last_modified_at: 2025-02-05
+last_modified_at: 2026-02-27
 ---
 
 
 # Class and Members in a Class
 In C#, classes are used to create custom types.
 
-## C# Fields and Methods
+## C# Fields, Properties and Methods
 **Fields:** are variables and **Methods:** are functions in a class.
 
 ```csharp
@@ -50,6 +50,8 @@ namespace Animals
     }
 }
 ```
+
+
 
 ## C# Class Constructor and Finalizer (Destructor)
 
@@ -229,6 +231,10 @@ $ Nana is pooping!
 ## C# Fields & Properties, What is the difference?
 
 ## C# Property [Doc](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties)
+
+* Field: A field, also known as an instance variable or member variable, is a data storage location that belongs to an object or class. It represents the state or characteristics of an object. Fields store values and can have different data types, such as integers, strings, or custom objects. They are typically declared at the class level and can be accessed and modified by the methods within the class. Fields can have different access modifiers, such as public, private, or protected, which control their visibility and accessibility from other classes or objects.
+
+* Property: A property, also known as an accessor or getter/setter, provides a way to access or modify the values of private fields in a controlled manner. It is a combination of methods (or functions) that are used to retrieve or assign values to a field. Properties provide encapsulation and help in maintaining the integrity of data by imposing validation or additional logic when accessing or modifying the field values. They allow controlled access to the underlying fields and can be used to expose or hide implementation details. Properties often have public visibility to allow external code to…
 
 **Read-only property:** they have a get accessor but no set accessor. \\
 **Write only property:** they have a set accessor, but no get accessor. \\
