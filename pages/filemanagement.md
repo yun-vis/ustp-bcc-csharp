@@ -81,7 +81,9 @@ public class Cat
     // The birthday of the cat
     public DateTime DateOfBirth
     {
-        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        //get; // Get compile errors (C# 13 or lower) and run-time errors and warnings (C# 14 or above) because you cannot mix an auto accessor with a custom accessor.
+        // Use $ dotnet new globaljson --force --sdk-version 8.0.302 --roll-forward latestFeature
+        // and run other .Net version (e.g., .Net 8) for testing
         get
         {
             return _dateOfBirth;
@@ -169,10 +171,23 @@ $ Coffee's first kitty is named "Nana-Coffee".
 // private DateTime _dateOfBirth;
 public DateTime DateOfBirth
 {
+    // auto-implemented getter
     get;
-    set => field = (value > DateTime.Today)
-        ? throw new ArgumentOutOfRangeException(nameof(value), "The value must not be negative")
-        : value;
+
+    // you can only mix auto-implemented getter and a customized setter in C# 14 or above
+    private set
+    {
+        // Data validation
+        if (value > DateTime.Today)
+            throw new ArgumentException("Date of birth must be in the past.");
+
+        field = value;
+    }        
+
+    // lambda-expression settor
+    // private set => field = (value > DateTime.Today)
+    // ? throw new ArgumentOutOfRangeException(nameof(value), "The value must not be negative")
+    // : value;
 }
 ```
 
@@ -291,7 +306,7 @@ public class Cat
     // The birthday of the cat
     public DateTime DateOfBirth
     {
-        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        //get; // Get compile errors (C# 13 or lower) and run-time errors and warnings (C# 14 or above) because you cannot mix an auto accessor with a custom accessor.
         get
         {
             return _dateOfBirth;
@@ -479,7 +494,7 @@ public class Cat : IRun
     // The birthday of the cat
     public DateTime DateOfBirth
     {
-        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        //get; // Get compile errors (C# 13 or lower) and run-time errors and warnings (C# 14 or above) because you cannot mix an auto accessor with a custom accessor.
         get
         {
             return _dateOfBirth;
@@ -648,7 +663,7 @@ public class Cat : IRun, IComparable<Cat>
     // The birthday of the cat
     public DateTime DateOfBirth
     {
-        // get; will get errors because you cannot mix an auto accessor with a custom accessor.
+        //get; // Get compile errors (C# 13 or lower) and run-time errors and warnings (C# 14 or above) because you cannot mix an auto accessor with a custom accessor.
         get
         {
             return _dateOfBirth;
