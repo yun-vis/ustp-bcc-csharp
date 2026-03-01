@@ -6,7 +6,7 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"  
-last_modified_at: 2026-02-27
+last_modified_at: 2026-03-01
 ---
 
 # Other Properties of Methods
@@ -161,6 +161,19 @@ $ Nana was born on a Monday and has 1 kitties.
 $ Coffee was born on a Thursday and has 2 kitties.
 $ Kiwi was born on a Monday and has 1 kitties.
 $ Coffee's first kitty is named "Nana-Coffee".
+```
+
+## Field backed property declarations (only from C# 14)
+
+```csharp
+// private DateTime _dateOfBirth;
+public DateTime DateOfBirth
+{
+    get;
+    set => field = (value > DateTime.Today)
+        ? throw new ArgumentOutOfRangeException(nameof(value), "The value must not be negative")
+        : value;
+}
 ```
 
 <!-- ## Lazy Initialization -->
@@ -773,3 +786,15 @@ $ Nana was born on a Monday and has 0 kitties.
 * When you write C# code and compile it (using tools like the Microsoft .NET SDK), it gets turned into an assembly. This is usually a *.exe file (executable program) or a *.dll file (reusable library)
 
 * [Assemblies in .NET](https://learn.microsoft.com/en-us/dotnet/standard/assembly/)
+
+## [Contextual keywords](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/)
+
+A contextual keyword provides a specific meaning in the code, but it isn't a reserved word in C#. Some contextual keywords, such as partial and where, have special meanings in two or more contexts.
+
+### [The value implicit parameter](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value)
+
+* The set accessor in property and indexer declarations uses the implicit parameter value. This parameter acts as an input for the method. The word value refers to the value that client code tries to assign to the property or indexer.
+
+### [field keyword introduced from C# 14](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/field)
+  
+* Use the contextual keyword field, introduced in C# 14, in a property accessor to access the compiler-synthesized backing field of a property. 
