@@ -116,8 +116,8 @@ public class Cat
     // Parameterized Constructor
     public Cat(string name, DateTime dateOfBirth)
     {
-        this.Name = name;
-        this.DateOfBirth = dateOfBirth;
+        Name = name;
+        DateOfBirth = dateOfBirth;
     }
     // Finalizer/Desctructor
     ~Cat()
@@ -339,8 +339,8 @@ public class Cat
     // Parameterized Constructor
     public Cat(string name, DateTime dateOfBirth)
     {
-        this.Name = name;
-        this.DateOfBirth = dateOfBirth;
+        Name = name;
+        DateOfBirth = dateOfBirth;
     }
     // Finalizer/Desctructor
     ~Cat()
@@ -528,8 +528,8 @@ public class Cat : IRun
     // Parameterized Constructor
     public Cat(string name, DateTime dateOfBirth)
     {
-        this.Name = name;
-        this.DateOfBirth = dateOfBirth;
+        Name = name;
+        DateOfBirth = dateOfBirth;
         Speed = 0.0;
     }
     // Finalizer/Desctructor
@@ -697,8 +697,8 @@ public class Cat : IRun, IComparable<Cat>
     // Parameterized Constructor
     public Cat(string name, DateTime dateOfBirth)
     {
-        this.Name = name;
-        this.DateOfBirth = dateOfBirth;
+        Name = name;
+        DateOfBirth = dateOfBirth;
         Speed = 0.0;
     }
     // Finalizer/Desctructor
