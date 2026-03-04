@@ -20,34 +20,33 @@ In C#, classes are used to create custom types.
 /*
 The animal namespace
 */
-namespace Animals
+namespace Animals;
+
+// An animal class
+public class Animal
 {
-    // An animal class
-    public class Animal
-    {
-    }
+}
 
-    // A cat class
-    public class Cat
-    {
-        // Class fields
-        // The name of the cat
-        public string Name = "Unknown";
-        // The birthday of the cat
-        public DateTime DateOfBirth;
+// A cat class
+public class Cat
+{
+    // Class fields
+    // The name of the cat
+    public string Name = "Unknown";
+    // The birthday of the cat
+    public DateTime DateOfBirth;
 
-        // Class methods
-        // Print out method
-        public void WriteToConsole()
-        {
-            Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd}.");
-        }
-    }
-
-    // A dog class
-    public class Dog
+    // Class methods
+    // Print out method
+    public void WriteToConsole()
     {
+        Console.WriteLine($"{Name} was born on a {DateOfBirth:dddd}.");
     }
+}
+
+// A dog class
+public class Dog
+{
 }
 ```
 

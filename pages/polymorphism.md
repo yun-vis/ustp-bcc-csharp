@@ -6,7 +6,7 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"  
-last_modified_at: 2025-03-14
+last_modified_at: 2026-03-04
 ---
 
 
@@ -143,11 +143,10 @@ $ My old resource is 12.5 and my new resource is 25
 
 In MyBusiness/Program.cs,
 ```csharp
-using System;
-using Animals;
+using PetLibrary;
 
 // namespace
-namespace Animals;
+namespace MyBusiness;
 
 class Program
 {
@@ -158,20 +157,20 @@ class Program
         // the CheckFood method, we cannot safely do much and the results are 
         // sometimes not what you might expect
         Cat cat1 = new Cat();
-        cat1.food = 5;
+        cat1.Food = 5;
         Console.WriteLine($"Cat food with an integer: {cat1.checkFood(5)}");
 
         Cat cat2 = new Cat();
-        cat2.food = "fish";
+        cat2.Food = "fish";
         Console.WriteLine($"Cat food with a string: {cat2.checkFood("fish")}");
 
         // The type is defined at allocation
         GenericCat<int> gCat1 = new GenericCat<int>();
-        gCat1.food = 5;
+        gCat1.Food = 5;
         Console.WriteLine($"Cat food with an integer: {gCat1.checkFood(5)}");
 
         GenericCat<string> gCat2 = new GenericCat<string>();
-        gCat2.food = "fish";
+        gCat2.Food = "fish";
         Console.WriteLine($"Cat food with a string: {gCat2.checkFood("fish")}");
 
         // generic methods
@@ -191,25 +190,89 @@ class Program
 ```
 
 In PetLibrary/Cat.cs,
-
 ```csharp
-namespace Animals;
+namespace PetLibrary;
 
 public class Cat
 {
-    public object? food = default(object);
-    // object: Supports all classes in the .NET class hierarchy and provides low-level 
-    // services to derived classes. This is the ultimate base class of all .NET 
-    // classes; it is the root of the type hierarchy.
-    // default: A default value expression produces the default value of a type
+    // fields
+    public string Name;
+    private DateTime _dateOfBirth; // backing field
+    public List<Cat> Children = new List<Cat>();
+    public object? Food = default(object);
+
+    // properties
+    // public string Name { 
+    //     get; 
+    //     private set; 
+    // }
+    public DateTime DateOfBirth
+    {
+        // get;set;
+        get
+        {
+            return _dateOfBirth;
+        }
+        set
+        {
+            if (value > DateTime.Today)
+                throw new ArgumentException("Date of birth must be in the past");
+
+            _dateOfBirth = value;
+        }
+    }
+
+    // constructors
+    // method overloading
+    // default constructor
+    public Cat()
+    {
+        Name = "UnknownCat";
+        DateOfBirth = DateTime.Today;
+    }
+    // parametrized constructor
+    public Cat(string name, DateTime dateOfBirth)
+    {
+        Name = name;
+        DateOfBirth = dateOfBirth;
+    }
+
+    // methods
+    public void WriteToLine()
+    {
+        Console.WriteLine($"{Name} was born on a {_dateOfBirth:dddd} and has {Children.Count} kitties.");
+    }
+
+    // instance method
+    public Cat ProduceKittyWith(Cat partner)
+    {
+        return ProduceKitty(this, partner);
+    }
+
+    // static method
+    public static Cat ProduceKitty(Cat cat1, Cat cat2)
+    {
+        Cat kitty = new Cat($"{cat1.Name}-{cat2.Name}", DateTime.Today);
+
+        cat1.Children.Add(kitty);
+        cat2.Children.Add(kitty);
+
+        return kitty;
+    }
+
+    // operator overloading
+    public static Cat operator *(Cat cat1, Cat cat2)
+    {
+        return ProduceKitty(cat1, cat2);
+    }
 
     public string checkFood(object input)
     {
-        if (food == null)
+        if (Food == null)
         {
             return "Expected food is empty.";
         }
-        else if (food == input)
+        else if (Food == input)
         // else if (food.Equals(input)) // Here, you explicitly compare the value not the address. 
         // Cat is currently flexible, because any type can be set for the food 
         // field and input parameter. But there is no type checking, so inside 
@@ -230,18 +293,23 @@ public class Cat
         }
     }
 }
+```
+
+In PetLibrary/GenericCat.cs,
+```csharp
+namespace PetLibrary;
 
 public class GenericCat<T> where T : IComparable
 {
-    public T? food = default(T?);
+    public T? Food = default(T?);
 
     public string checkFood(T input)
     {
-        if (food == null)
+        if (Food == null)
         {
             return "Expected food is empty!";
         }
-        else if (food.CompareTo(input) == 0)
+        else if (Food.CompareTo(input) == 0)
         {
             return "Expected food and input are the same.";
         }
@@ -297,3 +365,9 @@ Do not forget to add the environment variables in MyBusiness.csproj
 ## Useful Advanced C# Data Structure
 
 * Collections [Doc](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/collections). We will introduce one-by-one later.
+
+# References
+
+* [where (generic type constraint)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/where-generic-type-constraint)
+  In a generic definition, use the where clause to specify constraints on the types that you use as arguments for type parameters in a generic type, method, delegate, or local function. 
+
