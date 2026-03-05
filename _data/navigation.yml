@@ -14,11 +14,11 @@ main:
     url: /pages/inheritance
   - title: "Polymorphism"
     url: /pages/polymorphism
-  - title: "Data Structure"
+  - title: "DS&A: List"
     url: /pages/datastructure
-  - title: "Algorithm"
+  - title: "DS&A: Sorting"
     url: /pages/algorithm
-  - title: "Graph"
+  - title: "DS&A: Graph"
     url: /pages/graph
   - title: "Collections"
     url: /pages/collection

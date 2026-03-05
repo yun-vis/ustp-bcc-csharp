@@ -1,7 +1,7 @@
 ---
 # permalink: /about/
 layout: single
-title: "Algorithm"
+title: "DS&A: Sorting"
 classes: wide
 header:
   image: /assets/images/teaser/teaser.png

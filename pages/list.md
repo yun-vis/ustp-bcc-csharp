@@ -1,7 +1,7 @@
 ---
 # permalink: /about/
 layout: single
-title: "Data Structure"
+title: "DS&A: List"
 classes: wide
 header:
   image: /assets/images/teaser/teaser.png
@@ -9,9 +9,7 @@ header:
 last_modified_at: 2025-06-24
 ---
 
-# Data Structure I
-
-# Data Structure II
+# List
 
 ## Console Project vs. Library Project
 

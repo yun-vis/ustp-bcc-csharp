@@ -1,7 +1,7 @@
 ---
 # permalink: /about/
 layout: single
-title: "Graph"
+title: "DS&A: Graph"
 classes: wide
 header:
   image: /assets/images/teaser/teaser.png
@@ -10,8 +10,6 @@ header:
 #   auto_ids: true
 last_modified_at: 2026-02-24
 ---
-
-# Data Structure III
 
 ## Graph II (Node/Edge List)
 
