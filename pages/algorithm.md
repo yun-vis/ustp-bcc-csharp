@@ -16,10 +16,11 @@ An algorithm is a precise, step-by-step set of instructions or rules designed to
 
 A Sorting Algorithm is used to rearrange a given array or list of elements in an order. For example, a given array [10, 20, 5, 2] becomes [2, 5, 10, 20] after sorting in increasing order and becomes [20, 10, 5, 2] after sorting in decreasing order.
 
-## Quick Sort
 
 In MyBusiness/Program.cs
 ```csharp
+using AlgorithmLibrary.BubbleSort;
+using AlgorithmLibrary.MergeSort;
 using AlgorithmLibrary.QuickSort;
 
 namespace MyBusiness;
@@ -28,38 +29,284 @@ class Program
 {
     static void Main(string[] args)
     {
-        int[] myArray = { 10, 7, 8, 9, 1, 5 };
-
-        QuickSort.Sort(myArray, 3, myArray.Length - 1);
-
-        foreach (int val in myArray)
+        // Input validation
+        if (args.Length != 2)
         {
-            Console.Write(val + " ");
+            Console.WriteLine("Sorting type is not specified or the list is empty. Please use -Bubble YourList, -Merge YourList, or -Quick YourList for this command.");
+            return;
         }
 
+        // Read list to be sorted and convert elements to integers
+        string[] elements = args[1].Split(',');
+        Console.WriteLine("User Input List: " + args[1]);
+
+        // Select the specified sorting algorithm 
+        switch (args[0])
+        {
+            case "-Bubble":
+                BubbleSort<string>.PrintList("Initial List", elements);
+                BubbleSort<string>.Sorter(elements);
+                BubbleSort<string>.PrintList("Sorted List", elements);
+                break;
+            case "-Merge":
+                MergeSort<string>.PrintList("Initial List", elements);
+                MergeSort<string>.Sorter(elements, 0, elements.Length - 1);
+                MergeSort<string>.PrintList("Sorted List", elements);
+                break;
+            case "-Quick":
+                QuickSort<string>.PrintList("Initial List", elements);
+                QuickSort<string>.Sorter(elements, 0, elements.Length - 1);
+                QuickSort<string>.PrintList("Sorted List", elements);
+                break;
+            default:
+                Console.WriteLine("Specified sorting algorithm is not found.");
+                break;
+        }
     }
 }
 ```
 ```bash
-The singlyLinkedList: 2 6 4 
+$ User Input List: 3,2,1
+$
+$ ##################################
+$ Initial List:  3 2 1
+$ ##################################
+$ 
+$ ##################################
+$ Sorted List:  1 2 3
+$ ##################################
 ```
+
+In AlgorithmLibrary/ConsoleIO.cs
+```csharp
+namespace AlgorithmLibrary;
+
+public class ConsoleIO<T> where T : IComparable<T>
+{
+    // Constructor
+    public ConsoleIO()
+    {
+    }
+
+    // IO
+    public static void PrintList(string listType, T[] array)
+    {
+        // \n introduces a new line in console
+        Console.WriteLine("\n##################################");
+        Console.Write(listType + ": ");
+        for (int i = 0; i < array.Length; i++)
+        {
+            Console.Write($" {array[i]}");
+        }
+        Console.WriteLine("\n##################################");
+    }
+}
+```
+
+## Bubble Sort
+In AlgorithmLibrary/BubbleSort.cs
+```csharp
+namespace AlgorithmLibrary.BubbleSort;
+
+public class BubbleSort<T> : ConsoleIO<T> where T : IComparable<T>
+{
+    // Constructor
+    public BubbleSort()
+    {
+    }
+
+    // Methods
+    public static void Sorter(T[] array)
+    {
+        int length = array.Length;
+
+        Console.WriteLine("\nSteps:");
+        for (int i = 0; i < length - 1; i++)
+        {
+            for (int j = 1; j < length; j++)
+            {
+                // The two elements of the exchange
+                if (array[j].CompareTo(array[j - 1]) < 0)
+                {
+                    T temp = array[j];
+                    array[j] = array[j - 1];
+                    array[j - 1] = temp;
+                    _printSteps(array);
+                }
+            }
+        }
+    }
+
+    static void _printSteps(T[] array)
+    {
+        // Print the current state of the arry
+        for (int i = 0; i < array.Length; i++)
+        {
+            Console.Write($" {array[i]}");
+        }
+        Console.WriteLine("");
+    }
+}
+```
+
+## Merge Sort
+In AlgorithmLibrary/MergeSort.cs
+```csharp
+namespace AlgorithmLibrary.MergeSort;
+
+public class MergeSort<T> : ConsoleIO<T> where T : IComparable<T>
+{
+    // Constructor
+    public MergeSort()
+    {
+    }
+
+    // Methods
+    public static void Sorter(T[] array, int left, int right)
+    {
+        int length = array.Length;
+
+        // If left index is still at the left side of the right index
+        if (left < right)
+        {
+            int middle = (left + right) / 2;
+
+            // Sort the left array
+            _printSteps("  Left: ", array, left, middle);
+            Sorter(array, left, middle);
+
+            // Sort the right array
+            _printSteps("  Right: ", array, middle + 1, right);
+            Sorter(array, middle + 1, right);
+
+            // Merge the left and the right array
+            _merge(array, left, middle, right);
+            _printSteps(" Merged: ", array, left, right);
+            Console.WriteLine("");
+        }
+        else
+        {
+            // Used for debug purpose
+            // Console.WriteLine($"The indices swapped. Reach the base case.");
+        }
+
+        // PrintSteps();
+
+    }
+
+    static void _printSteps(string label, T[] array, int left, int right)
+    {
+        // Print the current state of the arry
+        Console.Write($" {label}");
+        for (int i = left; i < right + 1; i++)
+        {
+            Console.Write($" {array[i]}");
+        }
+        Console.WriteLine("");
+    }
+
+    // Merge two sub arrays
+    static void _merge(T[] array, int left, int middle, int right)
+    {
+        // Sizes of Subarrays to be merged
+        int numLeft = middle - left + 1;
+        int numRight = right - middle;
+
+        // Create two temporary arrays
+        T[] leftArray = new T[numLeft];
+        T[] rightArray = new T[numRight];
+
+        // Copy data to temp arrays
+        for (int i = 0; i < numLeft; i++)
+        {
+            leftArray[i] = array[left + i];
+        }
+        for (int i = 0; i < numRight; i++)
+        {
+            rightArray[i] = array[middle + 1 + i];
+        }
+
+        // Merge the temporary arrays
+        // Create two indices
+        int indexL = 0, indexR = 0;
+        // Current left index
+        int indexC = left;
+        while (indexL < numLeft && indexR < numRight)
+        {
+            // The first value in the leftArray is smaller than the first value in the rightArray
+            if (leftArray[indexL].CompareTo(rightArray[indexR]) < 0)
+            {
+                array[indexC] = leftArray[indexL];
+                indexL++;
+            }
+            else
+            {
+                array[indexC] = rightArray[indexR];
+                indexR++;
+            }
+            indexC++;
+        }
+
+        // Concatenate the remaining array
+        if (indexL < numLeft)
+        {
+            // Concatenate the left array
+            for (int i = indexL; i < numLeft; i++)
+            {
+                array[indexC] = leftArray[i];
+                indexC++;
+            }
+        }
+        else if (indexR < numRight)
+        {
+            // Concatenate the right array
+            for (int i = indexR; i < numRight; i++)
+            {
+                array[indexC] = rightArray[i];
+                indexC++;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Something is wrong here. Check!");
+        }
+    }
+}
+```
+
+## Quick Sort
 
 In AlgorithmLibrary/QuickSort.cs
 ```csharp
 namespace AlgorithmLibrary.QuickSort;
 
-public class QuickSort
+public class QuickSort<T> : ConsoleIO<T> where T : IComparable<T>
 {
+    // Constructor
     public QuickSort()
     {
     }
 
-    // partition function
-    static int _partition(int[] arr, int low, int high)
+    // Methods
+    public static void Sorter(T[] array, int low, int high)
+    {
+        if (low < high)
+        {
+            // pi is the partition return index of pivot
+            int pi = _partition(array, low, high);
+
+            // recursion calls for smaller elements
+            // and greater or equals elements
+            Sorter(array, low, pi - 1);
+            Sorter(array, pi + 1, high);
+        }
+    }
+
+    static int _partition(T[] array, int low, int high)
     {
 
         // choose the pivot
-        int pivot = arr[high];
+        T pivot = array[high];
 
         // index of smaller element and indicates 
         // the right position of pivot found so far
@@ -70,41 +317,25 @@ public class QuickSort
         // i are smaller after every iteration
         for (int j = low; j <= high - 1; j++)
         {
-            if (arr[j] < pivot)
+            if (array[j].CompareTo(pivot) < 0)
             {
                 i++;
-                _swap(arr, i, j);
+                _swap(array, i, j);
             }
         }
 
         // move pivot after smaller elements and
         // return its position
-        _swap(arr, i + 1, high);
+        _swap(array, i + 1, high);
         return i + 1;
     }
 
     // swap function
-    static void _swap(int[] arr, int i, int j)
+    static void _swap(T[] array, int i, int j)
     {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-
-    // The QuickSort function implementation
-    public static void Sort(int[] arr, int low, int high)
-    {
-        if (low < high)
-        {
-
-            // pi is the partition return index of pivot
-            int pi = _partition(arr, low, high);
-
-            // recursion calls for smaller elements
-            // and greater or equals elements
-            Sort(arr, low, pi - 1);
-            Sort(arr, pi + 1, high);
-        }
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
 ```

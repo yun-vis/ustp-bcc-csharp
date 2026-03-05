@@ -18,6 +18,8 @@ main:
     url: /pages/datastructure
   - title: "Algorithm"
     url: /pages/algorithm
+  - title: "Graph"
+    url: /pages/graph
   - title: "Collections"
     url: /pages/collection
   - title: ".Net Type"
