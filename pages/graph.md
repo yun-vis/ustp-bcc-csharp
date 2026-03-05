@@ -11,7 +11,7 @@ header:
 last_modified_at: 2026-02-24
 ---
 
-# Data Structure II
+# Data Structure III
 
 ## Graph II (Node/Edge List)
 

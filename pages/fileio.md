@@ -1285,4 +1285,5 @@ Environment.SpecialFolder.UserProfile = /Users/yun
 
 * [Numerals in various writing systems](https://omniglot.com/language/numerals.htm)
 
-# File System
+* [C# identifier naming rules and conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names)
+
