@@ -1,27 +1,46 @@
 ---
 # permalink: /about/
 layout: single
-title: "DS&A: Sorting"
+title: "DS&A: Searching & Sorting"
 classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
-last_modified_at: 2026-03-05
+last_modified_at: 2026-03-09
 ---
+
+## Console Project vs. Library Project
+
+* Create the DataStructureLibrary classlib project
+
+```bash
+$ dotnet new classlib --name AlgorithmLibrary
+```
+
+* Do not forget to add the environment variables in MyBusiness.csproj
+```csharp
+  <ItemGroup>
+    <ProjectReference
+      Include="../DataStructureLibrary/DataStructureLibrary.csproj" />
+    <ProjectReference
+      Include="../AlgorithmLibrary/AlgorithmLibrary.csproj" />      
+  </ItemGroup>
+```
 
 # What is Algorithm?
 An algorithm is a precise, step-by-step set of instructions or rules designed to accomplish a specific task or solve a problem. It takes an input, processes it through a defined series of finite steps, and produces a desired output. 
 
-# Sorting Algorithms
 
-A Sorting Algorithm is used to rearrange a given array or list of elements in an order. For example, a given array [10, 20, 5, 2] becomes [2, 5, 10, 20] after sorting in increasing order and becomes [20, 10, 5, 2] after sorting in decreasing order.
+# Searching Algorithms
 
+A search algorithm is defined as a precisely defined procedure for locating specific data within a structure.
 
-In MyBusiness/Program.cs
+## Linear Search
+
+In MyBusiness/Program.cs,
 ```csharp
-using AlgorithmLibrary.BubbleSort;
-using AlgorithmLibrary.MergeSort;
-using AlgorithmLibrary.QuickSort;
+using AlgorithmLibrary.LinearSearch;
+using AlgorithmLibrary.BinarySearch;
 
 namespace MyBusiness;
 
@@ -32,7 +51,7 @@ class Program
         // Input validation
         if (args.Length != 2)
         {
-            Console.WriteLine("Sorting type is not specified or the list is empty. Please use -Bubble YourList, -Merge YourList, or -Quick YourList for this command.");
+            Console.WriteLine("Sorting type is not specified or the list is empty. Please use \n -Linear YourList \n -Binary YourList \n -Bubble YourList \n -Merge YourList \n -Quick YourList \n for this command.");
             return;
         }
 
@@ -43,41 +62,34 @@ class Program
         // Select the specified sorting algorithm 
         switch (args[0])
         {
-            case "-Bubble":
-                BubbleSort<string>.PrintList("Initial List", elements);
-                BubbleSort<string>.Sorter(elements);
-                BubbleSort<string>.PrintList("Sorted List", elements);
+            case "-Linear":
+                LinearSearch<string>.PrintList("Initial List", elements);
+                int idL = LinearSearch<string>.Search(elements, "a");
+                Console.WriteLine("Index of the List: " + idL);
                 break;
-            case "-Merge":
-                MergeSort<string>.PrintList("Initial List", elements);
-                MergeSort<string>.Sorter(elements, 0, elements.Length - 1);
-                MergeSort<string>.PrintList("Sorted List", elements);
-                break;
-            case "-Quick":
-                QuickSort<string>.PrintList("Initial List", elements);
-                QuickSort<string>.Sorter(elements, 0, elements.Length - 1);
-                QuickSort<string>.PrintList("Sorted List", elements);
+            case "-Binary":
+                BinarySearch<string>.PrintList("Initial List", elements);
+                int idB = BinarySearch<string>.Search(elements, "c");
+                Console.WriteLine("Index of the List: " + idB);
                 break;
             default:
-                Console.WriteLine("Specified sorting algorithm is not found.");
+                Console.WriteLine("Specified algorithm is not found.");
                 break;
         }
     }
 }
 ```
 ```bash
-$ User Input List: 3,2,1
-$
-$ ##################################
-$ Initial List:  3 2 1
-$ ##################################
+$ dotnet run -Linear s,a,b  
+$ User Input List: s,a,b
 $ 
 $ ##################################
-$ Sorted List:  1 2 3
+$ Initial List:  s a b
 $ ##################################
+$ Index of the List: 1
 ```
 
-In AlgorithmLibrary/ConsoleIO.cs
+In AlgorithmLibrary/ConsoleIO.cs,
 ```csharp
 namespace AlgorithmLibrary;
 
@@ -103,17 +115,156 @@ public class ConsoleIO<T> where T : IComparable<T>
 }
 ```
 
+In AlgorithmLibrary/LinearSearch.cs,
+```csharp
+namespace AlgorithmLibrary.LinearSearch;
+
+public class LinearSearch<T> : ConsoleIO<T> where T : IComparable<T>
+{
+    LinearSearch() { }
+
+    public static int Search(T[] array, T x)
+    {
+        // Iterate over the array in order to find the key x
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (array[i].CompareTo(x) == 0)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+## Binary Search
+
+In AlgorithmLibrary/BinarySearch.cs,
+```csharp
+namespace AlgorithmLibrary.BinarySearch;
+
+// [IMPORTANT] can be applied only on a sorted list
+public class BinarySearch<T> : ConsoleIO<T> where T : IComparable<T>
+{
+    BinarySearch() { }
+    public static int Search(T[] array, T x)
+    {
+        int low = 0, high = array.Length - 1;
+
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+
+            // Check if x is present at mid
+            if (array[mid].CompareTo(x) == 0)
+            {
+                return mid;
+            }
+            // If x greater, ignore left half
+            else if (array[mid].CompareTo(x) < 0)
+            {
+                low = mid + 1;
+            }
+            // If x is smaller, ignore right half
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        // If we reach here, then element does not exist
+        return -1;
+    }
+}
+```
+
+# Sorting Algorithms
+
+A Sorting Algorithm is used to rearrange a given array or list of elements in an order. For example, a given array [10, 20, 5, 2] becomes [2, 5, 10, 20] after sorting in increasing order and becomes [20, 10, 5, 2] after sorting in decreasing order.
+
+
+In MyBusiness/Program.cs,
+```csharp
+using AlgorithmLibrary.LinearSearch;
+using AlgorithmLibrary.BinarySearch;
+using AlgorithmLibrary.BubbleSort;
+using AlgorithmLibrary.MergeSort;
+using AlgorithmLibrary.QuickSort;
+
+namespace MyBusiness;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Input validation
+        if (args.Length != 2)
+        {
+            Console.WriteLine("Sorting type is not specified or the list is empty. Please use \n -Linear YourList \n -Binary YourList \n -Bubble YourList \n -Merge YourList \n -Quick YourList \n for this command.");
+            return;
+        }
+
+        // Read list to be sorted and convert elements to integers
+        string[] elements = args[1].Split(',');
+        Console.WriteLine("User Input List: " + args[1]);
+
+        // Select the specified sorting algorithm 
+        switch (args[0])
+        {
+            case "-Linear":
+                LinearSearch<string>.PrintList("Initial List", elements);
+                int idL = LinearSearch<string>.Search(elements, "a");
+                Console.WriteLine("Index of the List: " + idL);
+                break;
+            case "-Binary":
+                BinarySearch<string>.PrintList("Initial List", elements);
+                int idB = BinarySearch<string>.Search(elements, "c");
+                Console.WriteLine("Index of the List: " + idB);
+                break;
+            case "-Bubble":
+                BubbleSort<string>.PrintList("Initial List", elements);
+                BubbleSort<string>.Sorter(elements);
+                BubbleSort<string>.PrintList("Sorted List", elements);
+                break;
+            case "-Merge":
+                MergeSort<string>.PrintList("Initial List", elements);
+                MergeSort<string>.Sorter(elements, 0, elements.Length - 1);
+                MergeSort<string>.PrintList("Sorted List", elements);
+                break;
+            case "-Quick":
+                QuickSort<string>.PrintList("Initial List", elements);
+                QuickSort<string>.Sorter(elements, 0, elements.Length - 1);
+                QuickSort<string>.PrintList("Sorted List", elements);
+                break;
+            default:
+                Console.WriteLine("Specified algorithm is not found.");
+                break;
+        }
+    }
+}
+```
+```bash
+$ User Input List: 3,2,1
+$
+$ ##################################
+$ Initial List:  3 2 1
+$ ##################################
+$ 
+$ ##################################
+$ Sorted List:  1 2 3
+$ ##################################
+```
+
 ## Bubble Sort
-In AlgorithmLibrary/BubbleSort.cs
+In AlgorithmLibrary/BubbleSort.cs,
 ```csharp
 namespace AlgorithmLibrary.BubbleSort;
 
 public class BubbleSort<T> : ConsoleIO<T> where T : IComparable<T>
 {
     // Constructor
-    public BubbleSort()
-    {
-    }
+    public BubbleSort() { }
 
     // Methods
     public static void Sorter(T[] array)
@@ -150,16 +301,14 @@ public class BubbleSort<T> : ConsoleIO<T> where T : IComparable<T>
 ```
 
 ## Merge Sort
-In AlgorithmLibrary/MergeSort.cs
+In AlgorithmLibrary/MergeSort.cs,
 ```csharp
 namespace AlgorithmLibrary.MergeSort;
 
 public class MergeSort<T> : ConsoleIO<T> where T : IComparable<T>
 {
     // Constructor
-    public MergeSort()
-    {
-    }
+    public MergeSort() { }
 
     // Methods
     public static void Sorter(T[] array, int left, int right)
@@ -182,16 +331,12 @@ public class MergeSort<T> : ConsoleIO<T> where T : IComparable<T>
             // Merge the left and the right array
             _merge(array, left, middle, right);
             _printSteps(" Merged: ", array, left, right);
-            Console.WriteLine("");
         }
         else
         {
             // Used for debug purpose
             // Console.WriteLine($"The indices swapped. Reach the base case.");
         }
-
-        // PrintSteps();
-
     }
 
     static void _printSteps(string label, T[] array, int left, int right)
@@ -268,7 +413,7 @@ public class MergeSort<T> : ConsoleIO<T> where T : IComparable<T>
         }
         else
         {
-            Console.WriteLine("Something is wrong here. Check!");
+            Console.WriteLine("Something went wrong here. Check!");
         }
     }
 }
@@ -276,16 +421,14 @@ public class MergeSort<T> : ConsoleIO<T> where T : IComparable<T>
 
 ## Quick Sort
 
-In AlgorithmLibrary/QuickSort.cs
+In AlgorithmLibrary/QuickSort.cs,
 ```csharp
 namespace AlgorithmLibrary.QuickSort;
 
 public class QuickSort<T> : ConsoleIO<T> where T : IComparable<T>
 {
     // Constructor
-    public QuickSort()
-    {
-    }
+    public QuickSort() { }
 
     // Methods
     public static void Sorter(T[] array, int low, int high)
@@ -342,6 +485,8 @@ public class QuickSort<T> : ConsoleIO<T> where T : IComparable<T>
 
 ---
 # External Resources
+
+## [Searching Algorithms](https://www.geeksforgeeks.org/dsa/searching-algorithms/)
 
 ## [Sorting Algorithms](https://www.geeksforgeeks.org/dsa/sorting-algorithms/)
 

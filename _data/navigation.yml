@@ -15,7 +15,7 @@ main:
   - title: "Polymorphism"
     url: /pages/polymorphism
   - title: "DS&A: List"
-    url: /pages/datastructure
+    url: /pages/list
   - title: "DS&A: Sorting"
     url: /pages/algorithm
   - title: "DS&A: Graph"

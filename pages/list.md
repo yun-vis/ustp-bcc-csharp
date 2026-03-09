@@ -6,7 +6,7 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
-last_modified_at: 2025-06-24
+last_modified_at: 2026-03-09
 ---
 
 # List
@@ -23,6 +23,14 @@ $ dotnet new console --use-program-main --name MyBusiness
 
 ```bash
 $ dotnet new classlib --name DataStructureLibrary
+```
+
+* Do not forget to add the environment variables in MyBusiness.csproj
+```csharp
+  <ItemGroup>
+    <ProjectReference
+      Include="../DataStructureLibrary/DataStructureLibrary.csproj" />
+  </ItemGroup>
 ```
 
 ## Singly Linked List
