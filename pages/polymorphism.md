@@ -6,7 +6,7 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"  
-last_modified_at: 2026-03-04
+last_modified_at: 2026-03-09
 ---
 
 
@@ -163,7 +163,8 @@ class Program
         Cat cat2 = new Cat();
         cat2.Food = "fish";
         Console.WriteLine($"Cat food with a string: {cat2.checkFood("fish")}");
-
+        // The .NET runtime maintains an intern pool, which is a table of unique string literals.
+        
         // The type is defined at allocation
         GenericCat<int> gCat1 = new GenericCat<int>();
         gCat1.Food = 5;
@@ -199,7 +200,7 @@ public class Cat
     public string Name;
     private DateTime _dateOfBirth; // backing field
     public List<Cat> Children = new List<Cat>();
-    public object? Food = default(object);
+    public object Food = default(object);
 
     // properties
     // public string Name { 
@@ -273,7 +274,7 @@ public class Cat
             return "Expected food is empty.";
         }
         else if (Food == input)
-        // else if (food.Equals(input)) // Here, you explicitly compare the value not the address. 
+        // else if (Food.Equals(input)) // Here, you explicitly compare the value not the address. 
         // Cat is currently flexible, because any type can be set for the food 
         // field and input parameter. But there is no type checking, so inside 
         // the Process method, we cannot safely do much and the results are sometimes 
@@ -301,7 +302,7 @@ namespace PetLibrary;
 
 public class GenericCat<T> where T : IComparable
 {
-    public T? Food = default(T?);
+    public T Food = default(T);
 
     public string checkFood(T input)
     {
