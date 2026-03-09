@@ -14,13 +14,11 @@ last_modified_at: 2026-03-09
 ## Console Project vs. Library Project
 
 * Create the MyBusiness console project
-
 ```bash
 $ dotnet new console --use-program-main --name MyBusiness
 ```
 
 * Create the DataStructureLibrary classlib project
-
 ```bash
 $ dotnet new classlib --name DataStructureLibrary
 ```
