@@ -8,16 +8,16 @@ header:
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
 # kramdown:
 #   auto_ids: true
-last_modified_at: 2026-02-24
+last_modified_at: 2026-03-19
 ---
 
 ## Graph II (Node/Edge List)
 
 In MyBusiness/Program.csproj
 ```csharp
-namespace MyBusiness;
-
 using DataStructureLibrary.Graph;
+
+namespace MyBusiness;
 
 class Program
 {
@@ -57,13 +57,12 @@ $ E(3) = V(Yun) -- V(Anna)
 $ E(4) = V(Yun) -- V(Victor)
 $ ==============================
 $ The total number of vertices is 3
-$ The total number of edges is 3
+$ The total number of edges is 2
 $ ==============================
 $ V(1) = Markus
 $ V(2) = Yun
 $ V(3) = Anna
 $ ==============================
-$ E(1) = V(Victor) -- V(Yun)
 $ E(2) = V(Markus) -- V(Yun)
 $ E(3) = V(Yun) -- V(Anna)
 $ ==============================
