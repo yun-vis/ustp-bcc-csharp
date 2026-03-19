@@ -91,8 +91,10 @@ public class Graph
     // Manipulate vertices
     public Vertex AddVertex(string name)
     {
+        // Check if the vertex exist
         Vertex? v = HasVertex(name);
 
+        // If not, add a new vertex
         if (v == null)
         {
             Vertex newV = new Vertex((uint)_vertices.Count, name);
@@ -152,7 +154,7 @@ public class Graph
         }
     }
 
-    // Function overloading
+    // Method overloading
     public Vertex? HasVertex(string name)
     {
         foreach (Vertex v in _vertices)
@@ -163,7 +165,7 @@ public class Graph
         return null;
     }
 
-    // Function overloading
+    // Method overloading
     public Vertex? HasVertex(uint id)
     {
         foreach (Vertex v in _vertices)
@@ -184,8 +186,10 @@ public class Graph
             return null;
         }
 
+        // Check if the edge exists
         Edge? e = HasEdge(source, target);
 
+        // If not, add a new edge
         if (e == null)
         {
             Edge newE = new Edge((uint)_edges.Count, source, target);
@@ -400,7 +404,7 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
         return v;
     }
 
-public void RemoveVertex(string name)
+    public void RemoveVertex(string name)
     {
         Vertex<TVertexProperty>? v = HasVertex(name);
 
@@ -632,3 +636,5 @@ public class Edge<TVertex, TEdgeProperty> where TEdgeProperty : BasicEdgePropert
 
 ---
 # External Resources
+
+* [Debugging using VSCode](https://code.visualstudio.com/docs/debugtest/debugging)
