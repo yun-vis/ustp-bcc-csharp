@@ -38,6 +38,8 @@ Windows/MacOS/Linux: Visual Studio Code + .Net 10
 
 ## CSharp to PlantUML via Extension of VSCode
   * Usage: Ctrl+Shift+P to enable the vscode Command Palette and run the command "csharp2plantuml.classDiagram".
+  * Prerequisite maybe needed (check the documentation of the extension): 
+    * Windows/Mac OS: [.Net 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 <!-- ## CSharp to PlantUML (Optional, in case you don't find the extension through Visual Studio Code)
 
