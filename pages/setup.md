@@ -235,7 +235,7 @@ class Program
 * On Mac OS, if the default Debugger not running on VS Code, make sure
   * Your C# and C# Dev Kit are up-to-date
   * Setup workspace settings
-    * Put [launch.json](/assets/files/launch.json) and [tasks.json](/assets/files/tasks.json) under .vscode of your root folder (Thanks Timon Schneider for the solution)
+    * Put [launch.json](/ustp-bcc-csharp/assets/files/launch.json) and [tasks.json](/ustp-bcc-csharp/assets/files/tasks.json) under .vscode of your root folder (Thanks Timon Schneider for the solution)
 
 ---
 # External Resources
