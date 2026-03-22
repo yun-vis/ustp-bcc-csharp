@@ -37,10 +37,12 @@ Windows/MacOS/Linux: Visual Studio Code + .Net 10
   * Turn on Word Wrap in the Setting if preferred.
 
 ## CSharp to PlantUML via Extension of VSCode
+  * Prerequisite is needed (check the documentation of the extension): 
+    * Windows/Mac OS/Linux: [.NET Core 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime) -> Choose "Run console apps" to download
+  * If you want more information in your diagram, you can do certain settings. For example,
+    * CSharp to PlantUML extension -> settings -> Create Association -> Create object association from field and property reference 
   * Usage: Ctrl+Shift+P to enable the vscode Command Palette and run the command "csharp2plantuml.classDiagram".
-  * Prerequisite maybe needed (check the documentation of the extension): 
-    * Windows/Mac OS: [.Net 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-
+   
 <!-- ## CSharp to PlantUML (Optional, in case you don't find the extension through Visual Studio Code)
 
   * [CSharp to PlantUML](https://github.com/pierre3/PlantUmlClassDiagramGenerator)
@@ -59,6 +61,7 @@ Windows/MacOS/Linux: Visual Studio Code + .Net 10
   * Prerequisite maybe needed (check the documentation of the extension): 
     * Windows: [Java runtime](https://www.java.com/en/download/)
     * Mac OS: [Java runtime](https://www.java.com/en/download/) + graphviz 
+      * Note that if you changed the default path of your package manager (i.e., homebrew), you will need to specify it through the "plantuml.commandArgs" command.
   * Usage: Alt+D (Windows)/Option+D (Mac OS) to enable the preview function
 
 ## Markdown All in One via Extension
@@ -229,6 +232,10 @@ class Program
 
 * Explorer in VSCode is missing. Ctrl+Shift+P to enable the vscode Command Palette and run the command "View: Reset View Locations".
 
+* On Mac OS, if the default Debugger not running on VS Code, make sure
+  * Your C# and C# Dev Kit are up-to-date
+  * Setup workspace settings
+    * Put [launch.json](/assets/files/launch.json) and [tasks.json](/assets/files/tasks.json) under .vscode of your root folder (Thanks Timon Schneider for the solution)
 
 ---
 # External Resources
@@ -242,3 +249,4 @@ class Program
 <!-- * [Announcing the .NET MAUI extension for Visual Studio Code](https://devblogs.microsoft.com/visualstudio/announcing-the-dotnet-maui-extension-for-visual-studio-code/)  -->
 * [Creating C4 and UML Diagrams Using PlantUML with VSCode Extension](https://medium.com/@robertdennyson/creating-c4-and-uml-diagrams-using-plantuml-with-vscode-extension-90032a21ec43)
 * [File Scoped Namespaces](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/file-scoped-namespaces)
+* [User and workspace settings](https://code.visualstudio.com/docs/configure/settings)

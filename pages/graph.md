@@ -76,13 +76,14 @@ public class Graph
 {
     // Fields
     // The list of vertices in the graph
-    // LinkedList is the singly linked list implementation in C#
+    // LinkedList is the doubly linked list implementation in C#
     private LinkedList<Vertex> _vertices;
     private LinkedList<Edge> _edges;
 
     // Constructors
     public Graph()
     {
+        // Keeping instiantiation in construcor allows lazy instanciation in later stage
         _vertices = new LinkedList<Vertex>();
         _edges = new LinkedList<Edge>();
     }
@@ -138,15 +139,16 @@ public class Graph
             // v.3 no error
             for (int i = 0; i < _edges.Count; i++)
             {
-                bool isRemoved = false;
-                // Equal to source id or target id
-                if ((_edges.ElementAt(i).Source == v) || (_edges.ElementAt(i).Target == v))
-                {
-                    _edges.Remove(_edges.ElementAt(i));
-                    isRemoved = true;
-                }
+                // bool isRemoved = false;
+                Edge e = _edges.ElementAt(i);
 
-                if (isRemoved == true) i--;
+                if (e.Source == v || e.Target == v)
+                {
+                    _edges.Remove(e);
+                    // isRemoved = true;
+                    i--;
+                }
+                // if (isRemoved == true) i--;
             }
 
             // Remove the vertex from the list
@@ -444,7 +446,7 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
             // v3
             // Collect the adjacent edges to be removed
             // List<Edge<Vertex<TVertexProperty>, TEdgeProperty>> deleteEdgeList = _edges.Where(e => (e.Property.Source == v) || (e.Property.Target == v)).ToList();
-            // // Remove thfe collected edges
+            // // Remove the collected edges
             // foreach (Edge<Vertex<TVertexProperty>, TEdgeProperty> e in deleteEdgeList)
             // {
             //     // Console.WriteLine(e);
