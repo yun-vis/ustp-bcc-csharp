@@ -8,7 +8,7 @@ header:
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
 # kramdown:
 #   auto_ids: true
-last_modified_at: 2026-03-19
+last_modified_at: 2026-03-24
 ---
 
 ## Graph II (Node/Edge List)
@@ -213,7 +213,7 @@ public class Graph
         }
         else
         {
-            Console.WriteLine("Edge could not be found. The method does nothing.");
+            Console.WriteLine("Edge could not be found. This method does nothing.");
         }
     }
 
@@ -297,11 +297,16 @@ public class Edge
 
 ## Graph III (Node/Edge List Refactored using Abstraction)
 
+* Fix Id inconsistency problem, or use the Dictionary<TKey,TValue> collection instead
+* Replace Console.WriteLine() in PrintGraph() by overriding ToString()
+* Remove duplicated "if (source == null || target == null) return null;" in AddEdge() and RemoveEdge()
+* Split data and methods to achieve abstraction and polymorphism
+
 In MyBusiness/Program.cs
 ```csharp
-namespace MyBusiness;
-
 using DataStructureLibrary.Graph;
+
+namespace MyBusiness;
 
 class Program
 {
@@ -316,7 +321,7 @@ class Program
 
     static void Main(string[] args)
     {
-        Graph<VertexProperty, EdgeProperty<Vertex<VertexProperty>>> graph  = new Graph<VertexProperty, EdgeProperty<Vertex<VertexProperty>>>();
+        Graph<VertexProperty, EdgeProperty<Vertex<VertexProperty>>> graph = new Graph<VertexProperty, EdgeProperty<Vertex<VertexProperty>>>();
         Vertex<VertexProperty> v1 = graph.AddVertex("Victor");
         Vertex<VertexProperty> v2 = graph.AddVertex("Markus");
         Vertex<VertexProperty> v3 = graph.AddVertex("Yun");
@@ -325,7 +330,7 @@ class Program
         // graph.RemoveVertex("Anna");
         Vertex<VertexProperty> v5 = graph.AddVertex("Michael");
         Edge<Vertex<VertexProperty>, EdgeProperty<Vertex<VertexProperty>>>? e = graph.AddEdge(v1, v2);
-        if(e!=null)
+        if (e != null)
         {
             e.Property.Weight = 1.0;
         }
@@ -343,26 +348,26 @@ class Program
 $ The total number of vertices is 5
 $ The total number of edges is 4
 $ ==============================
-$ V(Victor)
-$ V(Markus)
-$ V(Yun)
-$ V(Anna)
-$ V(Michael)
+$ V(0) = Victor
+$ V(1) = Markus
+$ V(2) = Yun
+$ V(3) = Anna
+$ V(4) = Michael
 $ ==============================
-$ E(0): V(Victor) -> V(Markus)  
-$ E(1): V(Victor) -> V(Yun)     
-$ E(2): V(Markus) -> V(Yun)     
-$ E(3): V(Yun) -> V(Anna)       
+$ E(0): (V(0) = Victor) --> (V(1) = Markus)
+$ E(1): (V(0) = Victor) --> (V(2) = Yun)
+$ E(2): (V(1) = Markus) --> (V(2) = Yun)
+$ E(3): (V(2) = Yun) --> (V(3) = Anna)
 $ ==============================
 $ The total number of vertices is 4
 $ The total number of edges is 1
 $ ==============================
-$ V(Markus)
-$ V(Yun)
-$ V(Anna)
-$ V(Michael)
+$ V(1) = Markus
+$ V(2) = Yun
+$ V(3) = Anna
+$ V(4) = Michael
 $ ==============================
-$ E(2): V(Markus) -> V(Yun)
+$ E(2): (V(1) = Markus) --> (V(2) = Yun)
 $ ==============================
 ```
 
@@ -415,15 +420,18 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
             // v1
             for (int i = 0; i < _edges.Count; i++)
             {
-                bool isRemoved = false;
+                Edge<Vertex<TVertexProperty>, TEdgeProperty> e = _edges.ElementAt(i);
+
+                // bool isRemoved = false;
                 // Equal to source or target
-                if ((_edges.ElementAt(i).Property.Source == v) || (_edges.ElementAt(i).Property.Target == v))
+                if ((e.Property.Source == v) || (e.Property.Target == v))
                 {
-                    _edges.Remove(_edges.ElementAt(i));
-                    isRemoved = true;
+                    _edges.Remove(e);
+                    // isRemoved = true;
+                    i--;
                 }
 
-                if (isRemoved == true) i--;
+                // if (isRemoved == true) i--;
             }
 
             // v2
@@ -486,17 +494,14 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
     public Edge<Vertex<TVertexProperty>, TEdgeProperty>? AddEdge(Vertex<TVertexProperty>? source, Vertex<TVertexProperty>? target)
     {
         // Check if the source and target vertices exist
-        if (source == null || target == null)
-        {
-            Console.WriteLine("Source or Target Vertex could not be found. Please add vertices first");
-            return null;
-        }
+        // But this is done in HasEdge(source, target) already
+        // if (source == null || target == null) return null;
 
         Edge<Vertex<TVertexProperty>, TEdgeProperty>? e = HasEdge(source, target);
 
         if (e == null)
         {
-            Edge<Vertex<TVertexProperty>, TEdgeProperty> newE = new Edge<Vertex<TVertexProperty>, TEdgeProperty>(source, target);
+            Edge<Vertex<TVertexProperty>, TEdgeProperty> newE = new Edge<Vertex<TVertexProperty>, TEdgeProperty>(source!, target!);
             _edges.AddLast(newE);
 
             return newE;
@@ -507,16 +512,18 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
 
     public void RemoveEdge(Vertex<TVertexProperty>? source, Vertex<TVertexProperty>? target)
     {
-        if (source == null || target == null) return;
+        // But this is done in HasEdge(source, target) already
+        // if (source == null || target == null) return;
 
         Edge<Vertex<TVertexProperty>, TEdgeProperty>? e = HasEdge(source, target);
+
         if (e != null)
         {
             _edges.Remove(e);
         }
         else
         {
-            Console.WriteLine("Edge could not be found. The method does nothing.");
+            Console.WriteLine("Edge could not be found. This method does nothing.");
         }
     }
 
@@ -530,7 +537,7 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
                 (e.Property.Target == target))
                 return e;
         }
-        
+
         return null;
     }
 
@@ -560,15 +567,26 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
 }
 ```
 
+The where clause can also include a constructor constraint, new(). That constraint makes it possible to create an instance of a type parameter by using the new operator. The new() Constraint lets the compiler know that any type argument supplied must have an accessible parameterless constructor. 
+
+In C#, the new() constraint must be parameterless because it serves as a compile-time guarantee that the generic type can be instantiated with a specific, uniform syntax: new T(). C# does not currently support constraints that specify specific constructor parameters (e.g., where T : new(string)). Implementing parameterized constructor constraints would require a complex "structural typing" system for constructors, which hasn't been added to the language yet. 
+
+Common Workarounds:
+
+* **Factory Pattern**: Pass a delegate like Func<T> to your generic class, allowing you to define custom instantiation logic outside the generic context.
+* **Interface Initialization**: Use a new() constraint to create the object, then call an Initialize(...) method defined in a shared interface.
+
 In DataStructureLibrary/Vertex.cs
 ```csharp
 namespace DataStructureLibrary.Graph;
 
+//  An abstract class is a class that cannot be instantiated directly.
 public abstract class BasicVertexProperty
 {
     // Fields
     public uint Id;
     public string Name = "unknownName";
+
 }
 
 // BasicVertexProperty, new() are generic type constraints
@@ -577,11 +595,12 @@ public class Vertex<TVertexProperty> where TVertexProperty : BasicVertexProperty
     // Fields
     public TVertexProperty Property;
     // starts from 0
-    private static uint _idCounter = 0; 
-    
+    private static uint _idCounter = 0;
+
     // Constructors
     public Vertex()
     {
+        // The new() Constraint lets the compiler know that any type argument supplied must have an accessible parameterless constructor.
         Property = new TVertexProperty();
         Property.Id = _idCounter++;
     }
@@ -594,7 +613,7 @@ public class Vertex<TVertexProperty> where TVertexProperty : BasicVertexProperty
 
     public override string ToString()
     {
-        return $"V({Property.Name})";
+        return $"V({Property.Id}) = {Property.Name}";
     }
 }
 ```
@@ -622,6 +641,7 @@ public class Edge<TVertex, TEdgeProperty> where TEdgeProperty : BasicEdgePropert
     // Constructors
     public Edge(TVertex source, TVertex target)
     {
+        // The new() Constraint lets the compiler know that any type argument supplied must have an accessible parameterless constructor.
         Property = new TEdgeProperty();
         Property.Id = _idCounter++;
         Property.Source = source;
@@ -631,8 +651,54 @@ public class Edge<TVertex, TEdgeProperty> where TEdgeProperty : BasicEdgePropert
     public override string ToString()
     {
         // check how to make it generic
-        return $"E({Property.Id}): {Property.Source} -> {Property.Target}";
+        return $"E({Property.Id}): ({Property.Source}) --> ({Property.Target})";
     }
+}
+```
+
+Language-Integrated Query (LINQ) is the name for a set of technologies based on the integration of query capabilities directly into the C# language. LINQ technology is a form of declarative, functional programming.
+
+In DataStructureLibrary/Extensions.cs
+```csharp
+namespace DataStructureLibrary.Graph;
+
+public static class LinkedListExtensions
+{
+    // Before C# 14, you declare an extension method by adding the this modifier to the first parameter.
+    public static void RemoveAll<T>(this LinkedList<T> linkedList,
+                                    Func<T, bool> predicate)
+    {
+        if (linkedList != null)
+        {
+            for (LinkedListNode<T> node = linkedList.First!; node != null;)
+            {
+                LinkedListNode<T> next = node.Next!;
+                if (predicate(node.Value))
+                    linkedList.Remove(node);
+                node = next;
+            }
+        }
+    }
+
+    // Beginning with C# 14, you can declare extension blocks. It has the same functionality as above.
+    // extension<T>(LinkedList<T>): Static-style extension members
+    // extension<T>(LinkedList<T> linkedList): Instance-style extension members
+    // extension<T>(LinkedList<T> linkedList)
+    // {
+    //     public void RemoveAll(Func<T, bool> predicate)
+    //     {
+    //         if (linkedList != null)
+    //         {
+    //             for (LinkedListNode<T> node = linkedList.First!; node != null;)
+    //             {
+    //                 LinkedListNode<T> next = node.Next!;
+    //                 if (predicate(node.Value))
+    //                     linkedList.Remove(node);
+    //                 node = next;
+    //             }
+    //         }
+    //     }
+    // }
 }
 ```
 
@@ -640,3 +706,9 @@ public class Edge<TVertex, TEdgeProperty> where TEdgeProperty : BasicEdgePropert
 # External Resources
 
 * [Debugging using VSCode](https://code.visualstudio.com/docs/debugtest/debugging)
+* [Dictionary<TKey,TValue>](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=net-10.0)
+* [new constraint (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/new-constraint)
+* [where (generic type constraint) (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/where-generic-type-constraint)
+* [C# Extension Methods](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods)
+* [LINQ (Language Integrated Query)](https://learn.microsoft.com/en-us/dotnet/csharp/linq/)
+* [Functional programming vs. imperative programming](https://learn.microsoft.com/en-us/dotnet/standard/linq/functional-vs-imperative-programming)

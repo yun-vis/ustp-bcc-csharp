@@ -6,7 +6,7 @@ classes: wide
 header:
   image: /assets/images/teaser/teaser.png
   caption: "Image credit: [**Yun**](http://yun-vis.net)"
-last_modified_at: 2025-02-20
+last_modified_at: 2026-03-21
 ---
 
 <!-- ![C# Logo](/fhstp-bcc-csharp/assets/images/c-sharp.png) -->
