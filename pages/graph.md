@@ -297,9 +297,10 @@ public class Edge
 
 ## Graph III (Node/Edge List Refactored using Abstraction)
 
-* Fix Id inconsistency problem, or use the Dictionary<TKey,TValue> collection instead
-* Replace Console.WriteLine() in PrintGraph() by overriding ToString()
-* Remove duplicated "if (source == null || target == null) return null;" in AddEdge() and RemoveEdge()
+* Remove duplicated `if (source == null || target == null) return null;` in `AddEdge()` and `RemoveEdge()`
+* Fix Id inconsistency problem, or use the `Dictionary<TKey,TValue>` collection instead
+* Replace `Console.WriteLine()` in `PrintGraph()` by overriding `ToString()`
+* Overload `==` and `!=` (need to be done in pairs), or override `Equals()`
 * Split data and methods to achieve abstraction and polymorphism
 
 In MyBusiness/Program.cs
@@ -462,6 +463,7 @@ where TEdgeProperty : BasicEdgeProperty<Vertex<TVertexProperty>>, new()
             // }
 
             // v4
+            // deleteEdgeList.RemoveAll() is possible, but what about linkedlist? 
             // _edges.RemoveAll(e => e.Property.Source == v || e.Property.Target == v);
 
             // Remove the vertex from the list
@@ -605,7 +607,9 @@ public class Vertex<TVertexProperty> where TVertexProperty : BasicVertexProperty
         Property.Id = _idCounter++;
     }
 
-    // Do we need to override Equals()?
+    // Do we need to override Equals()? 
+    // By default, it would compare references as == does, one can overrid it
+    // when comparing values is necessary
     // public override bool Equals(object? obj)
     // {
     //     return obj is Vertex<TVertexProperty> vertex && Property.Id == vertex.Property.Id;
