@@ -660,7 +660,7 @@ public class Edge<TVertex, TEdgeProperty> where TEdgeProperty : BasicEdgePropert
 }
 ```
 
-Language-Integrated Query (LINQ) is the name for a set of technologies based on the integration of query capabilities directly into the C# language. LINQ technology is a form of declarative, functional programming.
+Language-Integrated Query (LINQ, pronounced as "link") is the name for a set of technologies based on the integration of query capabilities directly into the C# language. LINQ technology is a form of declarative, functional programming.
 
 In DataStructureLibrary/Extensions.cs
 ```csharp
@@ -687,6 +687,7 @@ public static class LinkedListExtensions
     // Beginning with C# 14, you can declare extension blocks. It has the same functionality as above.
     // extension<T>(LinkedList<T>): Static-style extension members
     // extension<T>(LinkedList<T> linkedList): Instance-style extension members
+    
     // extension<T>(LinkedList<T> linkedList)
     // {
     //     public void RemoveAll(Func<T, bool> predicate)

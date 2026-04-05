@@ -626,6 +626,8 @@ In MyBusiness/Program.cs,
 ```csharp
 namespace MyBusiness;
 
+using PetLibrary;
+
 class Program
 {
     static void Main(string[] args)
@@ -688,7 +690,7 @@ class Program
 }
 ```
 
-In AnimalLibrary/Animals.cs,
+In PetLibrary/Animals.cs,
 ```csharp
 public class Animal
 {
