@@ -421,7 +421,6 @@ class Program
 
 In MyBusiness/Method.cs,
 ```csharp
-
 namespace MyBusiness;
 
 public class Method
@@ -566,7 +565,6 @@ $ Finished Method A.
 
 In MyBusiness/MethodWithResource.cs,
 ```csharp
-
 namespace MyBusiness;
 
 public class MethodWithResource
@@ -627,8 +625,8 @@ public class AsynchronismWithResource : MethodWithResource
 
         // Wait until all tasks are finished
         Task.WaitAll(new Task[] { a, b });
-        Console.WriteLine();
 
+        Console.WriteLine();
         Console.WriteLine($"Results: {Message}.");
         Console.WriteLine($"{watch.ElapsedMilliseconds:#,##0} elapsed milliseconds.");
     }
@@ -679,8 +677,8 @@ public class AsynchronismWithResourceLocked : MethodWithResource
 
         // Wait until all tasks are finished
         Task.WaitAll(new Task[] { a, b });
-        Console.WriteLine();
 
+        Console.WriteLine();
         Console.WriteLine($"Results: {Message}.");
         Console.WriteLine($"{watch.ElapsedMilliseconds:#,##0} elapsed milliseconds.");
     }
@@ -688,7 +686,7 @@ public class AsynchronismWithResourceLocked : MethodWithResource
     // Static methods are not associated with the instance of a class, but with the class 
     // itself. Therefore, when a subclass inherits a static method from its parent class, 
     // it cannot modify the behavior of the static method
-    new static void MethodA()
+    new private protected static void MethodA()
     {
         // add 5 times char A in the message
         // The statements of the critical section. A critical section is a piece of code that accesses a shared resource (data structure or device) but the condition is that only one thread can enter in this section in a time.
@@ -703,7 +701,8 @@ public class AsynchronismWithResourceLocked : MethodWithResource
         }
     }
 
-    new static void MethodB()
+    // static method cannot be overridden, use new keyword to hide it
+    new private protected static void MethodB()
     {
         // add 5 times char B in the message
         lock (conch)
@@ -722,7 +721,7 @@ public class AsynchronismWithResourceLocked : MethodWithResource
 $ Please wait for the tasks to complete.
 $ ..........
 $ Results: AAAAABBBBB.
-$ 7,701 elapsed milliseconds.
+$ 20,084 elapsed milliseconds.
 ```
 
 ## Understanding the lock statement

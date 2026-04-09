@@ -1066,10 +1066,7 @@ In MyBusiness/Program.cs,
 ```csharp
 // System libraries
 using System; // DateTime
-
-// External libraries
 using AnimalLibrary;
-using GraphLibrary;
 
 namespace MyBusiness;
 
@@ -1109,10 +1106,10 @@ class Program
 
         // Serialization
         SerializeXML serializeXML = new SerializeXML();
+        // serializeXML.Writer(people, "people.xml");
         serializeXML.Reader(people, "people.xml");
-        serializeXML.Writer(people, "people_new.xml");
+        // serializeXML.Writer(people, "people_new.xml");
     }
-
 }
 ```
 ```bash
@@ -1151,6 +1148,12 @@ class Program
 
 ## Serializing as XML and Deserializing XML files
 
+### In case, the library cannot be found
+```bash
+dotnet sln add .\AnimalLibrary\AnimalLibrary.csproj
+```
+
+in AnimalLibrary/SerializeXML.cs
 ```csharp
 using System.Xml.Serialization; // XmlSerializer
 using static System.Environment; // CurrentDirectory
@@ -1225,9 +1228,9 @@ public class SerializeXML
         //     if (stream != null) stream.Dispose();
         // }
 
-        Console.WriteLine("Written {0:N0} bytes of XML to {1}",
-          arg0: new FileInfo(file).Length,
-          arg1: file);
+        // Console.WriteLine("Written {0:N0} bytes of XML to {1}",
+        //   arg0: new FileInfo(file).Length,
+        //   arg1: file);
         Console.WriteLine();
         // Display the serialized object graph
         Console.WriteLine(File.ReadAllText(file));
@@ -1287,3 +1290,6 @@ Environment.SpecialFolder.UserProfile = /Users/yun
 
 * [C# identifier naming rules and conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names)
 
+* [Environment.CurrentDirectory Property](https://learn.microsoft.com/en-us/dotnet/api/system.environment.currentdirectory?view=net-10.0)
+
+Gets or sets the fully qualified path of the current working directory. By definition, if this process starts in the root directory of a local or network drive, the value of this property is the drive name followed by a trailing slash (for example, "C:\"). If this process starts in a subdirectory, the value of this property is the drive and subdirectory path, without a trailing slash (for example, "C:\mySubDirectory").
